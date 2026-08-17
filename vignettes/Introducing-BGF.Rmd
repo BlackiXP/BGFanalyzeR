@@ -1,0 +1,476 @@
+---
+title: "Introducing the BGFanalyzeR Package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introducing the BGFanalyzeR Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+The package adds the concept of microbial fermentation data to the R programming language. It was developed for **B**io**G**as **F**ermentations, but concepts and workflows might also be applied to other types fermentations.
+
+The central concept of this package is a novel S3 class object, the `BGF` which allows to store and visualize experimental data, and also supports experiment design.
+
+This vignette at first provides some background on what biogas fermentations are, as this might be a rather exotic topic to most R users.
+Then, the `BGF`-concept will be announced and some easy methods how to set up a `BGF` are shown.
+
+However, this vignette focuses on the basics and other vignettes provide more detailed explanations for distinct `BGF`-types and experimental workflow.
+
+```{r package schema,echo = FALSE,fig.height=7,fig.width=7}
+library(ggplot2)
+# Setup and scale ####
+dimensi=c(-25:60)
+xlimit=c(-10,40)
+ylimit=dimensi
+basefont=4
+fontstep=1
+pointSize=40
+
+Plot<-
+# Generate an empty scaled plot ####
+ggplot(mapping = aes(dimensi,dimensi))+
+  scale_x_continuous(limits=xlimit)+
+  #scale_y_continuous(limits=ylimit)+
+  theme_void()+
+
+  # R environment frame ####
+  geom_rect(aes(xmin=8.5,xmax=37.5,ymin=7,ymax=33),color="steelblue",alpha=.0009,linewidth=1.5)+
+  geom_text(mapping = aes(x=23,y=30,label="R programming language"),size=basefont,color="steelblue")+
+
+  ## Box 1 BGFanalyzeR ####
+  geom_rect(aes(xmin=10,xmax=20,ymin=8,ymax=27),fill="orange",alpha=.02,color="black")+
+  geom_text(mapping = aes(x=15,y=25,label="BGFanalyzeR"),size=basefont,color="white")+
+
+  geom_rect(aes(xmin=11,xmax=19,ymin=11,ymax=16),fill="orange",color="black")+
+  geom_text(mapping = aes(x=15,y=13.7,label="data analysis/\nprocessing"),size=(basefont-fontstep),color="white")+
+
+  geom_rect(aes(xmin=11,xmax=19,ymin=17,ymax=22),fill="orange",color="black")+
+  geom_text(mapping = aes(x=15,y=19.7,label="experiment\ndesign"),size=(basefont-fontstep),color="white")+
+
+  ## Box 2 other packages ####
+  geom_rect(aes(xmin=26,xmax=36,ymin=8,ymax=27),fill="orange",alpha=.02,color="black")+
+  geom_text(mapping = aes(x=31,y=25,label="other packages"),size=basefont,color="white")+
+
+  geom_rect(aes(xmin=27,xmax=35,ymin=9,ymax=13),fill="orange",color="black")+
+  geom_text(mapping = aes(x=31,y=11,label="keras3"),size=basefont,color="white")+
+
+
+  geom_rect(aes(xmin=27,xmax=35,ymin=14,ymax=18),fill="orange",color="black")+
+  geom_text(mapping = aes(x=31,y=16,label="phyloseq"),size=basefont,color="white")+
+
+  geom_rect(aes(xmin=27,xmax=35,ymin=19,ymax=23),fill="orange",color="black")+
+  geom_text(mapping = aes(x=31,y=21,label="Biogas"),size=basefont,color="white")+
+
+  ## BGF_test ####
+  geom_rect(aes(xmin=19.5,xmax=24.5,ymin=14,ymax=20),fill="black")+
+  geom_polygon(mapping = aes(x=c(24,24,26.5),y=c(11.5,22.5,17)),fill="black")+
+  geom_text(mapping = aes(x=22.7,y=17.1,label="BGF"),size=basefont,color="white")+
+
+  # R Output
+  geom_point(aes(x=17,y=-14),size=pointSize,color="darkgreen",alpha=.4)+
+  geom_text(mapping = aes(x=17,y=-14,label="standardized data\nformats (.csv/ .RDS)"),size=(basefont-fontstep),color="white")+
+
+  geom_point(aes(x=2,y=-14),size=pointSize,color="darkgreen",alpha=.4)+
+  geom_text(mapping = aes(x=2,y=-14,label="Plots"),size=(basefont-fontstep),color="white")+
+
+  geom_point(aes(x=32,y=-14),size=pointSize,color="darkgreen",alpha=.4)+
+  geom_text(mapping = aes(x=32,y=-14,label="further analysis"),size=(basefont-fontstep),color="white")+
+
+  # idea ####
+  geom_rect(aes(xmin=-7,xmax=0,ymin=2,ymax=38),fill="darkblue",alpha=.02)+
+  geom_text(mapping = aes(x=-3.5,y=19,label="Idea /\nResearch question"),size=basefont,color="white",angle=90)+
+
+  # experiments ####
+  geom_rect(aes(xmin=0,xmax=39,ymin=46,ymax=53),fill="darkgreen")+
+  geom_text(mapping = aes(x=20,y=50,label="Lab experiments /\nSeries of fermentations"),size=basefont,color="white")+
+
+  # connections ####
+  ## Idea to BGFanalyzeR ####
+  geom_line(mapping = aes(x=c(-.5,10.5),y=c(19,19)),linewidth=2.3,arrow=arrow(angle = 30, length = unit(0.25, "inches"),
+                                                                              ends = "both", type = "open"))+
+  geom_text(aes(x=5,y=20.5,label="conception"),size=basefont)+
+
+  ## Idea to Lab experiment ####
+  geom_line(mapping = aes(x=c(-3.5,0.5),y=c(37.5,49.5)),linewidth=2.3,arrow=arrow(angle = 30, length = unit(0.25, "inches"),
+
+                                                                                                                                ends = "last", type = "open"))+
+  geom_text(aes(x=-3.,y=43.,label="leads to"),angle=55,size=basefont)+
+
+  ## BGFanalyzeR to Plots ####
+  geom_line(mapping = aes(x=c(17,2),y=c(8.5,-9)),linewidth=2.3,arrow=arrow(angle = 30, length = unit(0.25, "inches"),
+                                                                                ends = "first", type = "open"))+
+  geom_text(aes(x=8.5,y=1.5,label="visualize"),angle=33,size=basefont)+
+
+  ## BGFanalyzeR to data formats ####
+  geom_line(mapping = aes(x=c(17,17),y=c(8.5,-10)),linewidth=2.3,arrow=arrow(angle = 30, length = unit(0.25, "inches"),
+                                                                                ends = "last", type = "open"))+
+  geom_text(aes(x=17,y=-1.,label="data storage /\nexchange"),angle=90,size=basefont)+
+
+  ## other packages to further analysis ####
+  geom_line(mapping = aes(x=c(32,32),y=c(8.5,-9)),linewidth=2.3,arrow=arrow(angle = 30, length = unit(0.25, "inches"),
+                                                                         ends = "last", type = "open"))+
+  geom_text(aes(x=31,y=1.5,label="allows"),angle=90,size=basefont)+
+
+  ## Lab experiments to BGFanalyzeR ####
+  geom_line(mapping = aes(x=c(12,12),y=c(46.5,26.5)),linewidth=2.3,arrow=arrow(angle = 30, length = unit(0.25, "inches"),
+                                                                          ends = "last", type = "open"))+
+  geom_text(aes(x=12,y=36.5,label="Input\ndata"),angle=90,size=basefont)
+
+
+Plot
+```
+
+## Background - A Microbial Biogas Fermentation
+In the sense of the `BGFanalyzer` package, a biogas fermentation is the anaerobic breakdown of organic material by microorganisms into gaseous end products.
+
+The most industrialized version of a biogas fermentation might be bio methane production, also known as anaerobic digestion.
+During this process, several microorganisms from the bacterial and archaeal domain of life break down sugars, proteins and fatty acids to terminally form methane (CH~4~) out of it.
+
+Despite methane, biological fermentations can also yield in the formation of other (valuable) gases, such as hydrogen (H~2~) or CO~2~. 
+Although only CH~4~ is commonly referred to as 'biogas', all microbial mediated processes that lead to a target gas formation are considered as 'biogas' fermentation in the sense of the `BGFanalyzer` package.
+
+## The `BGF` Concept
+The heart of the `BGFanalyzer` package is the new `BGF` object class, which allows to store experimental data of several fermentations.
+The package is independent of the 'experimental hardware' and can be used to build `BGF`'s from external text files or interactively in R.
+
+### `BGF` structure
+A `BGF` is an S3 data object with a `list` like structure.
+Each `BGF` has three standard layers.
+These are:
+
+* `ExpParam`: a `list` to store information on the `BGF` itselfe, like its name (`ExpParam$name`) or its measurement type (`ExpParam$MeasurementType`), or information all fermentaions of the `BGF` (should) share like the process temperature (`ExpParam$ProcessTemp`) or the inoculum to substrate ratio (`ExpParam$InocToSubRatio`). 
+
+* `metaData`: a `data.frame` that contains information specific for each fermentation in a `BGF`. 
+Three columns exist by default. Each row represents a single fermentation. 
+The first column holds the so called reactor layout (`metaData$Layout`), a user specified grouping variable that needs to be specified for each fermentation in a `BGF`. 
+The second column can be used to mark a fermentation as blank run (`metaData$Blank`). If a 'Blank' exists, it is possible to subtract its biogas production from other fermentations. 
+The last column is used to exclude a fermentation from the set (`metaData$Excluded`).
+Excluded fermentations can be filtered quickly from plots and layout specific yield calculations. 
+Further columns can be added by the user using dedicated functions. 
+For each fermentation in the `BGF`, one row in the `metaData`-layer must exist. 
+
+* `BioGasData`: a `data.frame` used to store the experimental data of each fermentation. 
+It has seven default columns and during object creation one empty row per specified fermentation is added. 
+Each row is a fermentation-specific observation. 
+The first column holds a specific ID (`BioGasData$reactor`), that links a fermentation to the `metaData`-layer of a `BGF`. 
+The second column stores the fermentation time (`BioGasData$time`), which is the time that has passed since a fermentation has started. 
+This means it is a time difference and can have any appropriate unit (e.g. "hours","days","weeks",etc.). 
+The third column is meant to store the amount of fermentation product (`BioGasData$product`), usually an accumulating exhaust gas volume in terms of a biogas fermentation. 
+The fourth column referrers to the product generation (`BioGasData$production`), e.g the amount of new product that has formed since the last observation. 
+The fifth column is used to calculate the amount of net product(`BioGasData$netProduct`), a specifically corrected amount of the `$product` column. 
+The sixth column stores the yield of the fermentation (`BioGasData$yield`), which means how many product was formed per input. 
+Finally, the seventh column is used to calculate the relative production, e.g. the ratio product/product~final~ in percent. 
+It is also possible to add new columns to that layer, if additional parameters, e.g. the pH value, for the fermentations are recorded.
+
+The decision to make the `BGF` an S3 type object was based on two considerations.
+
+First, S3 is the most primitive object-orientated programming system in R and most of the objects and functions R beginners encounter are of type S3.
+We wanted to make working with a `BGF`'s as easy as possible for everyone and thus the S3 system seemed like the right choice as it's familiar to R beginners and experts as well.
+
+Second, the S3 system offers a high degree of flexibility, so every user is free to add new layers to the `BGF` as needed. 
+One could imagine to add a fourth layer with e.g. sequencing results of microbial community of individual fermentations.
+However, the focus of the `BGFanalyzeR` package is the analysis biogas fermentation data and the general advice is to not change the three-layer architecture of a `BGF`.
+
+## Building a `BGF`
+
+The simplest way for an R user to create a `BGF` is the `BGF()` function. It requires only the `ReactorLayout` argument to be set and will then create a BGF.
+
+```{r first-BGF}
+library(BGFanalyzeR)
+
+# create an example BGF with five fermentations having the reactor layout "A", "B", "C", "D", "E"
+myBGF <- BGF(ReactorLayout = LETTERS[1:5])
+
+# inspect the BGF
+myBGF
+
+```
+When a `BGF` is printed to the R console, a textual summary is shown.
+In the first line, the name of the `BGF` and the number of fermentations within is displayed.
+For the above example, the name is 'new_BGF' and consists of 5 fermentations.
+
+The name of a `BGF` can be set during its creation with `BGF()` and other helper functions:
+
+```{r a named-BGF}
+# create a named BGF by specifying the 'name' argument in BGF()
+namedBGF <- BGF(ReactorLayout = paste0("2*",LETTERS[1:5]),
+                name = "named BGF")
+
+# inspect namedBGF
+namedBGF
+```
+
+The name of the new `BGF` is 'named BGF' and it contains 10 fermentations, instead.
+Note, that a shortcut for setting multiple identical reactor layouts was used during object creation of 'namedBGF' (type `?correct_RLayout` in the R console for details).
+
+Alternatively, a new name can be set using the function `alter_whatever()` or `base` R syntax:
+
+```{r re-naming-BGF}
+# rename myBGF using alter_whatever()
+myBGF <- alter_whatever(myBGF,
+                        layer = "ExpParam",
+                        what = "name",
+                        value = "new name")
+
+# rename namedBGF using base syntax
+namedBGF$ExpParam$name <- "new name"
+
+# do myBGF and namedBGF have the same name now?
+myBGF$ExpParam$name == namedBGF$ExpParam$name
+
+# inspect renaming results
+get_whatever(myBGF,
+             layer = "ExpParam",
+             what = "name")
+
+# or
+namedBGF$ExpParam$name
+```
+
+Following the first line with name and number of fermentations of a `BGF`, comes a block providing the number of variables in each layer of a `BGF`.
+In case of 'myBGF' and 'namedBGF', both have only the default variables set in each layer.
+This means, the `ExpParam`-layer has four 'experimental parameters' (`ExpParam$name`,`ExpParam$InocToSubRatio`,`ExpParam$ProcessTemp`,`ExpParam$MeasurementType`), the `metaData`-layer has three 'meta variables' (`metaData$Layout`, `metaData$Blank`, `metaData$Excluded`) and the `BioGasData`-layer has seven 'fermentation variables' (`BioGasData$reactor`, `BioGasData$time`, `BioGasData$product`, `BioGasData$production`, `BioGasData$net_product`, `BioGasData$yield`, `BioGasData$rel_production`). 
+
+At this point the number of rows in the `metaData`- and `BioGasData`-layer are identical, but all columns in the `BioGasData`-layer contain only `NA` values.
+
+Let's take a closer look whats already inside our `BGF` objects:
+
+```{r inspect-ExpParam}
+
+# list 'ExpParam'-layers of both BGF's
+# myBGF
+myBGF$ExpParam
+
+# namedBGF
+namedBGF$ExpParam
+
+```
+
+The `ExpParam`-layers of both `BGF`'s are identical, as we have not specified `BioGasData$InocToSubRatio`, `BioGasData$ProcessTemp` or `BioGasData$MeasurementType` manually during object creation, and renamed both objects to 'new name' afterwards.
+Thus all parameters despite the name are on their default value.
+
+Now we do the same for the `metaData`-layer:
+
+```{r inspect-metaData}
+# list 'metaData'-layers 
+# myBGF
+myBGF$metaData
+
+# namedBGF
+namedBGF$metaData
+
+```
+
+As we can see, both have identical columns (`Layout`, `Blank`, `Excluded`) but differ in the number of rows.
+In addition, the `metaData`-layer has row names, by default 'Rn' where 'n' is an increasing integer number.
+
+Whether this 'R' is for 'row', 'replicate', 'run', 'reactor' or 'relation' remains unknown.
+However, these row names must match the unique identifiers used in `BioGasData$reactor` of a `BGF`. 
+
+While row names serve as unique identifiers for a fermentation in the `metaData`-layer, its `Layout` column is used to group fermentations according a user specified variable. 
+As we have initially specified five, and ten reactor layouts during the creation of 'myBGF' and 'namedBGF', respectively, these columns are not identical for the two `BGF`'s.
+
+For both `BGF`'s, the `Blank` and `Excluded` columns contain only a `logic` `FALSE`, as none of the fermentations in either `BGF` was classified as 'Blank' or 'Excluded' so far.
+
+Finally, let's compare the `BioGasData`-layers:
+
+```{r inspect-BioGasData}
+# list 'BioGasData'-layers
+# myBGF
+myBGF$BioGasData
+
+# namedBGF
+namedBGF$BioGasData
+
+```
+
+Both contain only `NA` values.
+This is because during object creation with `BGF()` no data exists to be filled in the `BioGasData`-layer, but as for each fermentation at least one observation in `BioGasData`-layer should exist, these empty lines are created.
+They will be removed as soon as a `BGF` is updated with `update_BGF()`, which automatically happens during object creation with `from_standard_record()` or `from_AMPTSV2_report()`, or when a `BGF` is manipulated with dedicated functions of the `BGFanalyzeR` package.
+
+Normally `update_BGF()` is not called by the package user directly, but here for illustration purpose:
+
+```{r updated-BioGasData}
+# remove empty columns in 'BioGasData'-layer
+updatedBGF <- update_BGF(myBGF)
+
+# inspect updated BGF
+updatedBGF
+
+# and its 'BioGasData'-layer
+updatedBGF$BioGasData
+```
+
+The resulting `BGF` has no observations in the `BioGasData`-layer.
+
+## Visualizing fermentation data
+
+Building `BGF`'s with `BGF()` is nice but it objects created that way lack any experimental data. 
+For the topic of how to get data into a `BGF`, several workflows exist, which all have a dedicated vignette ().
+
+For the rest of this vignette, the focus is on how data visualization works with the `BGFanalyzeR` package.
+
+To this end we need a `BGF` with data.
+The package provides an example data set `LabscaleBiogas`, which is sufficient for this purpose.
+
+Let's first inspect it:
+```{r expBGF}
+# bind the example data set to an object
+expBGF <- LabscaleBiogas
+
+# rename it
+expBGF <- alter_whatever(expBGF,"ExpParam","name","Example BGF")
+
+# inspect it
+expBGF
+```
+
+This `BGF` is named '`r expBGF$ExpParam$name`' has a 15 fermentations.
+Its `ExpParam`- and `metaData`-layer have 11 experimental parameters and meta variables, respectively.
+In addition, it has 735 observations of 7 fermentation variables in its `BioGasData`-layer.
+
+The rest of the listing is a bit different from the listings of 'myBGF' and 'namedBGF'.
+Instead of the line `` `A '$yield' is not calculated yet` `` a tabular so called 'yield summary' is shown.
+
+This summary is stored in the `metaData`-layer of a `BGF` and usually generated using `summarize_yield()`.
+It contains information on the (final) `yield`, max `prduction` and the moment when max `production` occurred per user-specified reactor layout. If one layout was specified for more than one fermentation, a standard deviation for these values is also calculated.
+
+### The product curve
+But now, let's finally start visualizing out `BGF`.
+The easiest way to do this, is simply `plot()` it.
+
+```{r plot-BGF,fig.width=7,fig.height=5}
+# plot the 'BGF'
+plot(expBGF)
+```
+
+In this plot, the values of `BioGasData$product` are shown on the y-axis and `BioGasData$time` is on the x-axis. 
+Fermentations are colored by their identifier in `BioGasData$reactor`.
+
+This is the minimal information needed to compare biogas fermentations and thus this plot can be created as soon as data was entered to the `BioGasData`-layer .
+The title contains `ExpParam$name`. A suitable x-axis label can be generated via the `xlab` argument in `plot()`. 
+
+The unit 'Nml' in the y-axis label is read 'norm ml' and is a gas volume at 0°C and 1 atm pressure. This unit eventually needs correction if `BioGasData$product` has a different unit.
+
+More advanced data visualization is possible using `bgf_plot()`.
+With this function the data in `BioGasData$product`, `BioGasData$netProduct`, `BioGasData$production`, `BioGasData$rel_production` and `BioGasData$yield` can be easily plotted:
+
+```{r product-plot,fig.width=7,fig.height=5}
+# product plot
+bgf_plot(expBGF,type = "product")
+```
+
+This produces a similar output like `` `plot(expBGF)` ``.
+However, values of `BioGasData$product` are visualized as color coded lines, not dots. 
+In addition a unit in the x-axis label is automatically, if `ExpParam$timeScale` was added to the `BGF`.
+
+### The net product per layout curve
+By specifying 'product' in the `type` argument of `bgf_plot()` a similar plot as with `plot()` was produced.
+
+Now we will see what happens if we set `type` to 'netProduct':
+
+```{r net-product-plot,fig.width=7,fig.height=5}
+# net product by layout plot
+bgf_plot(expBGF,type = "netProduct")
+```
+
+A new plot is generated!
+Like in the previous plot, `BioGasData$time` is on the x-axis, but the y-axis scales with `BioGasData$net_product` and only eight instead of fifteen colored lines are plotted.
+
+This is because each line in this plot belongs to a distinct reactor layout, not a fermentation!
+Consequently, the values on the y-axis are mean values of `BioGasData$net_product` calculated over all fermentations that share the same layout.
+
+We can check the reactor layout of a `BGF` using `get_ReactorLayout()`:
+
+```{r get_reactorLayout}
+# print reactor layout of expBGF
+get_ReactorLayout(expBGF,feedback = TRUE)
+
+# check how many fermentations
+length(get_ReactorLayout(expBGF))
+
+# check how many distinct layouts exist in the BGF
+length(levels(get_ReactorLayout(expBGF)))
+```
+
+We can see, the `BGF`'s name, '`r expBGF$ExpParam$name`', and it's 'ReactorLayout', which has eight levels. 
+Each level except for 'Cellulose' belongs to two fermentations, so the total length of the layout is fifteen.
+
+Now that we understood what the differences between the `type` 'product' and 'netProduct' plots produced by `bgf_plot()` is, let's move on to the next type.
+
+### The production curve
+When using 'production' in the `type` argument of `bgf_plot()`, a curve is generated using `BioGasData$production`.
+
+
+```{r production-plot,fig.width=7,fig.height=5}
+# production plot
+bgf_plot(expBGF,type = "production")
+```
+
+For each fermentation, the values of `BioGasData$prodution` are plotted as a colored line.
+The y-axis is labeled as 'raw exhaust gas flow', because in a biogas fermentation the 'production' usually resembles a volume produced over time.
+In case of our example it would have the unit '[Nml/d]' (read 'norm milliliter per day').
+Thus, this plot displays how much biogas was produced per day for each fermentation.
+
+### The relative production curve
+The next `type` presented is 'relProduction', which produces also a line graphic but with adjusted `BioGasData$rel_production` values on the y-axis.
+
+```{r rel-production-plot,fig.width=7,fig.height=5}
+# relative product plot
+bgf_plot(expBGF,type = "relProduction")
+```
+
+In `BioGasData$rel_production`, (fermentation-specific) the share of `BioGasData$product` at each time of the max `BioGasData$product` in '\%' is calculated.
+Subtracting this value from 100\% results in the curves plotted above, from which the remaining gas production (in '\%') of each fermentation at each time can be read.
+
+### yield plots
+
+The last two plots presented in this vignette are a bit different from the previously shown, as they are made to visualize the 'yield summary' that is shown when a `BGF` is `print()`ed to the R console.
+
+For the first yield plot, one can set `type` to 'yield_col'. 
+This plot is directly build from the `metaData`-layer, like the 'yield summary' of the `print()` result and thus such a summary has to be created using `summarize_yield()` for this plot type to be working!
+
+```{r yield-col-plot,fig.width=7,fig.height=5}
+# yield col plot
+bgf_plot(expBGF,type = "yield_col")
+```
+
+If such a 'yield summary' is present in `metaData`, a column plot is generated.
+It has reactor layouts on the x-axis and a biogas yield on the y-axis.
+The biogas yield of a fermentation is the amount of biogas produced from a defined amount of organic input material.
+In our example the unit would be 'Nml/g~oTS~' (read 'norm milliliter per gram organic total solutes').
+
+The height of each column resembles the mean yield calculated for a given layout. 
+Error bars on top of each column illustrate the standard deviation around this mean value.
+Error bars are only generated if at least two fermentations share the same reactor layout.
+
+
+Lastly, if 'yield_box' is specified in the `type` argument of `bgf_plot`, a boxplot of `BioGasData$yield` values is generated for each reactor layout.
+
+```{r yield-box-plot,fig.width=7,fig.height=5}
+# yield box plot
+bgf_plot(expBGF,type = "yield_box")
+```
+
+This plot is advantageous to the column plot, as it offers more flexibility in value selection, shows more details on the data and can be created without generating a 'yield summary' in `metaData`.
+
+It is possible to omit the `type` argument when calling `bgf_plot()`. 
+In this case the default value 'all' is used and all of the above mentioned plots are created at once.
+
+## Further information
+As mentioned above, different workflows of getting data into a `BGF` exist, which all have their own vignettes.
+For educational purpose it is recommended to read at least the vignettes for AMPTS II-generated, and standard report-based `BGF`'s as this will build a holistic impression of the `BGFanalyzeR` package.
+
+Furthermore, the vignette on manual `BGF`'s provides a deeper impression and shows how the package can help planing and setting up real world experiments.
+
+In addition to the vignettes, the `BGFanalyzeR` package also provides a detailed documentation on each function.
+If still open questions remain, don't hesitate in contacting the authors.

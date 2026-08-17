@@ -1,0 +1,281 @@
+---
+title: "Creating a `BGF` without Input Files"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Creating a `BGF` without Input Files}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## What this vignette is about
+This vignette is the last of three workflow vignettes focusing on how to get data into a BGF. 
+It introduces the "manual" MeasurementType, which requires no external data files for input.
+
+BGF's of that measurement type can be useful during experiment conception but also allow to enter experimental parameters directly in R, e.g.when measurement values of accumulating exhaust gas (= BioGasData$product-values) are recorded employing syringes instead of digital gas counters. 
+
+This vignette covers the general methods of how to manually enter or alter values in a BGF and touches topic of experimental conception that have not yet been explained in the previous vignettes.
+
+## Setting up a manual BGF 
+
+A manual BGF can be created using BGF() and explicitly setting the MeasurmentType argument.
+Let's build a BGF for two fermentations of Layout "A" and "B".
+
+```{r setup}
+# load package
+library(BGFanalyzeR)
+
+# create a BGF
+myBGF <- BGF(ReactorLayout = c("A","B"),MeasurementType = "manuel")
+
+# print it to the console
+myBGF
+```
+
+The BGF was created but actually has carries no information.
+However, this will change soon, as we start to add our data.
+
+First lets inspect the ExpParam-layer:
+```{r inspect-ExpParam}
+# print ExpParam-layer
+print(myBGF$ExpParam)
+```
+As we can see, a default name was created and a default inoculum to substrate ration (InocToSubRatio) was specified. 
+Furthermore, the MeasurementType is manual and was declared during object creation with BGF().
+
+### Modify ExpParam
+
+Lets continue with specifying a value for ProcessTemp, renaming the BGF and adding a new parameter representing a time scale unit.
+
+```{r modify_ExpParam}
+# set a value for ProcessTemp
+myBGF$ExpParam$ProcessTemp=52 # 52°C is a good temperature for thermophilic anaerobic digestion
+
+# alternatively use alter_whatever() to modify existing entries in ExpParam
+myBGF <- alter_whatever(myBGF,layer = "ExpParam",what = "name",value = "manualBGF")
+
+# new parameters can be added using add_ExpParam()
+myBGF <- add_ExpParam(myBGF,what = c("timeScale"="Day"))
+
+# inspect the changes
+print(myBGF$ExpParam)
+```
+ExpParam has now 5 parameters and the values of ProcessTemp and name have changed.
+
+Note that we used two different ways to modify existing values in ExpParam. 
+While the process temperature was specified using simple S3 syntax, the renaming was done using a dedicated package function.
+
+In addition, take care to provide new parameters as tag-value pairs, when adding them to a BGF with add_ExpParam().
+The tag must be a character but the subsequent value can have any format.
+
+### Modify metaData
+
+Next, we want to see how to enter and alter information within the metaData-layer of our BGF.
+Remember, unless like ExpParam, metaData is a data.frame with one row per fermentation.
+
+```{r list-metaData}
+# inspect the current metaData
+myBGF$metaData
+```
+
+When inspecting the current metaData-layer we see one line per fermentation.
+None of our fermentations is classified as 'Blank', nor marked as excluded.
+
+We can add new meta data, like the concentration of volatile solutes (VS) for each fermentation as follows:
+
+```{r add-VS}
+# add VS concentration
+myBGF <- add_metaData(myBGF,what = c(2.8,1.9),lab = "cVS")
+
+# inspect changes
+myBGF$metaData
+```
+
+For our experiment imagine a situation, where fermentation A is used to inoculate fermentation B.
+This would make A a suitable 'Blank' with regard to B.
+Furthermore, the fermentations should be carried out with a working volume of 5L.
+
+We can set fermentation A to 'Blank' like this:
+
+```{r blank-A}
+# change the status of Fermentation A to Blank=TRUE
+myBGF <- alter_whatever(myBGF,layer = "metaData",
+                        what = "Blank",value = TRUE,ID = "R1")
+
+# inspect change
+myBGF$metaData
+```
+
+Fermentation A is now marked as 'Blank'.
+We can use the function calc_inoc_matrix_from_metaData() to generate a inoculation matrix telling how inoculum (the 'Blank') and substrate should be mixed together based on the InocToSubRatio parameter of the BGF, and in that case the VS concentration of the fermentations A and B.
+
+Note, that we could also calculate a COD- (chemical oxygen demand), or total solutes-based inoculation matrix, if the respective concentration is stored in metaData.
+
+```{r inoc_Matrix}
+# calculate a VS-based inoculation matrix
+InocMatrix <- calc_inoc_matrix_from_metaData(myBGF,col = 4,reactor = 5000) 
+# reactor = 5000 for a 5L reactor
+InocMatrix
+```
+
+For fermentation A (R1, the 'Blank'), the whole reactor ís filled with inoculum, and for fermentation B (R2), `r InocMatrix["Inoculum","R2"]` ml inoculum (fermenation A, R1) are mixed with `r InocMatrix["Substrate","R2"]` ml fresh substrate.
+
+For being able to subtract the amount of gas produced by the 'Blank' proportion in a fermentation, one must know the mass of organics (volatile solutes in gram for our example case) originating from the inoculum.
+As we have  the inoculation matrix and the VS concentration for each fermentation, we can add the amount of VS in inoculum and substrate to `metaData`.
+
+```{r add-VS-mass}
+# add inoculum mass for each fermentation
+myBGF <- add_metaData(myBGF,
+                      what = as.numeric(InocMatrix["Inoculum",])*(myBGF$metaData["R1","cVS"]/100),
+                      lab = "mInoc")
+
+# add substrate mass for each fermentation
+myBGF <- add_metaData(myBGF,
+                      what = as.numeric(InocMatrix["Substrate",])*(myBGF$metaData["R2","cVS"]/100),
+                      lab = "mSub")
+
+```
+
+
+### Modify BioGasData
+
+Our `BGF` has been created and a lab experiment was succesfully designed.
+Now we are ready to add experimental data.
+
+Imagine, in our hypothetical lab we have a fermentation system consisting of a temperarated and stirred reactor, and an analog gas counter where we can manually read the accumulating exhaust gas volume.
+
+We start the experiment and read the gas counter value once each day for 30 days.
+Doing this allows to add one new `product` value each day using `add_BG_measurement()`
+
+Let's enter a value for the fermentation with layout A on the day the experiment starts (day 0).
+
+```{r initial-value-FRA}
+# add a first value
+myBGF <- add_BG_measurement(myBGF,
+                            reactor = "R1",
+                            time = 0,
+                            col = "product",
+                            measurement = 0)
+
+# have a look at BioGasData upon value addition
+myBGF$BioGasData
+
+```
+
+We added '0' as the `product` value at '`time`= 0' as in the beginning of a fermentation, no biogas has been formed yet.
+
+Now we continue to add one measurement each day for the following 30 days using the same command.
+We will generate some random gas measurements for our example assuming that the fermnentation has a low but constant gas production:
+
+```{r add-further-values-to-FRA}
+# set seed
+set.seed(656)
+
+# generate a vector with 30 random numbers between 0.85 and 1.15
+gas <- runif(30,0.85,1.15)
+
+# convert these random numbers to hypothetical gas counter values
+## assume 120 ml gas per value
+gas <- gas * 120
+## accumulate 'daily production'
+for(i in c(2:length(gas))) gas[i]=c(gas[i]+gas[i-1])
+
+# add hypothetical gas counter values to BGF
+for(i in c(1:length(gas))) myBGF <- add_BG_measurement(myBGF,
+                            reactor = "R1",
+                            time = i,
+                            col = "product",
+                            measurement = gas[i])
+
+# look at the end of BioGasData-layer to see the effect
+tail(myBGF$BioGasData)
+```
+
+We successfully entered `product` values for the 'Blank' fermentation with layout A.
+Next, we will add further values for the fermentation with layout B.
+
+Like before, we start with a '0' for the day the fermentation began.
+
+```{r initial-value-FRB}
+# add a first value
+myBGF <- add_BG_measurement(myBGF,
+                            reactor = "R2",
+                            time = 0,
+                            col = "product",
+                            measurement = 0)
+
+# look at the end of BioGasData-layer to see the effect
+tail(myBGF$BioGasData)
+```
+
+Let's assume for fermentation B to produce a lot of gas in the beginning, but less gas in the end:
+
+```{r add-further-values-to-FRB}
+# final product around
+final_p = 25000
+
+# set max slope
+max_slope = 0.31
+
+products <- final_p * (1 - exp(-max_slope * (0:(length(gas)))))
+# convert the random numbers to hypothetical gas counter values
+gas = products[c(2:31)]
+
+for(i in c(1:length(gas))) myBGF <- add_BG_measurement(myBGF,
+                            reactor = "R2",
+                            time = i,
+                            col = "product",
+                            measurement = gas[i])
+
+# look at the end of BioGasData-layer to see the effect
+tail(myBGF$BioGasData)
+```
+Now that we entered product values for both fermentation, we can continue by calculationg further standard fermentation parameters, like production or net gas.
+For net gas calculation we assume a methane (target gas) concentration of 60 vol.%.
+
+```{r data-processing}
+# convert standard parameters to numeric
+myBGF <- cols_to_numeric(myBGF,c(2:7))
+
+# ensure internal logic of the BGF
+myBGF <- update_BGF(myBGF)
+
+# calculate production
+myBGF <- calculate_flow_from_volume(myBGF)
+
+# and relative production
+myBGF <- relative_production(myBGF)
+
+# calculate net gas (subtract Blank)
+myBGF <- netGas(myBGF,purity = 0.6,pos = 5)
+
+# calculate yield
+myBGF <- calc_yield(myBGF,pos = 6)
+
+# summarize yield
+myBGF <- summarize_yield(myBGF)
+
+# print the BGF to the console
+myBGF
+```
+
+Finally, we build a manual `BGF` for two fermentations and entered `product` values entirely using R without the need of external files with input data!
+The manual `BGF` created that way allow  the same visualizations techniques described in the other vignettes.
+They can be subset and merged like/ with other `BGF`'s.
+
+## manual BGF's allow max flexibility
+
+Compared to the other two workflows, the commercial and standard workflow, the manual `BGF`'s offer a broader degree of freedom to the user.
+However, with this increased freedom comes also increased responsibility during data processing.
+
+The same functions used during the manual workflow are also called behind the scenes during the other workflows.
+
+`BGF`'s created by either workflow are fully compatible to each other and thus can be merged, subset or re-arranged.
+
+The manual workflow with it's high flexibility includes all building bricks needed to develop own advanced workflows, allowing to adapt the potential of `BGFanalyzeR` all possible fermentation systems.

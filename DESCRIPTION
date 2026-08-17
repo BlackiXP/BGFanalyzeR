@@ -1,0 +1,37 @@
+Package: BGFanalyzeR
+Type: Package
+Title: An R Package to Analyze Microbial Biogas Fermentation Data
+Version: 0.9.6
+Authors@R: c(
+    person(
+      "Maximilian", "Strick",
+      email = "maximilianb.strick@gmail.com",
+      role = c("aut", "cre")
+    )
+  )
+Description: The package allows to work with biogas fermentation data in R.
+    Although the focus is set on bigas fermentations, concepts and workflows may be also applicable to other fermentations where not a gaseous product is measured.
+    The package introduces a new S3 object class, the BGF, and provides methodes to build an manipulate these objects.
+    It furthermore provides functions that bridge to established plot engines for data visualisation.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+Imports:
+    stats,
+    utils,
+    rlang,
+    zoo,
+    dplyr,
+    graphics,
+    ggplot2,
+    plotly
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Depends: 
+    R (>= 3.5)
+Config/roxygen2/version: 8.1.0
+VignetteBuilder: knitr
