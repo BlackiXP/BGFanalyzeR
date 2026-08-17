@@ -1,7 +1,7 @@
 Package: BGFanalyzeR
 Type: Package
 Title: An R Package to Analyze Microbial Biogas Fermentation Data
-Version: 0.9.6
+Version: 0.9.9
 Authors@R: c(
     person(
       "Maximilian", "Strick",

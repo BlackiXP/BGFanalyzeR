@@ -193,22 +193,22 @@ myBGF <- from_AMPTSV2_report(
 Plots <- bgf_plot(myBGF)
 
 # print 'product' curve
-Plots[["product_curve"]]
+if(interactive()) Plots[["product_curve"]]
 
 # print 'net product' curve
-Plots[["net_product_curve"]]
+if(interactive()) Plots[["net_product_curve"]]
 
 # print 'production' curve
-Plots[["production_curve"]]
+if(interactive()) Plots[["production_curve"]]
 
 # print 'relative production' curve
-Plots[["rel_production_curve"]]
+if(interactive()) Plots[["rel_production_curve"]]
 
 # print 'yield' colplot
-Plots[["yield_col"]]
+if(interactive()) Plots[["yield_col"]]
 
 # print 'yield' boxplot
-Plots[["yield_box"]]
+if(interactive()) Plots[["yield_box"]]
 
 
 # in the following examples the same plots are produced by plot_curve and the respective wrappers
@@ -219,8 +219,8 @@ plot_curve(
         color = reactor,
         ylab = "raw exaust gas volume",
         xlab = paste0("observation time [",myBGF$ExpParam$timeScale,"]"))
-plot_product_curve(myBGF)
-bgf_plot(myBGF,type="product")
+if(interactive()) plot_product_curve(myBGF)
+if(interactive()) bgf_plot(myBGF,type="product")
 
 # plot 'production' curve
 plot_curve(
@@ -229,8 +229,8 @@ plot_curve(
         color = reactor,
         ylab = "raw exaust gas flow",
         xlab = paste0("observation time [",myBGF$ExpParam$timeScale,"s]"))
-plot_production_curve(myBGF)
-bgf_plot(myBGF,type="production")
+if(interactive()) plot_production_curve(myBGF)
+if(interactive()) bgf_plot(myBGF,type="production")
 
 # plot 'rel_production' curve(s)
 plot_curve(
@@ -239,22 +239,24 @@ plot_curve(
         color = reactor,
         ylab = "remaining gas production [\%]",
         xlab = paste0("observation time [",myBGF$ExpParam$timeScale,"s]"))
-plot_rel_production_curve(myBGF) # Note: this curve is inverted so it starts at 100 \%
-bgf_plot(myBGF,type="relProduction")
+if(interactive()) plot_rel_production_curve(myBGF)
+# Note: this curve is inverted so it starts at 100 \%
+
+if(interactive()) bgf_plot(myBGF,type="relProduction")
 
 # plot mean net product by reactor layout
 plot_netProduct_by_Layout(myBGF)
 
 # create a col plot of the yield
 colplot_yield(myBGF)
-bgf_plot(myBGF,type="yield_col")
+if(interactive()) bgf_plot(myBGF,type="yield_col")
 
 # create a box plot of the 'yield'
 boxplot_yield(myBGF)
-bgf_plot(myBGF,type="yield_box")
+if(interactive()) bgf_plot(myBGF,type="yield_box")
 
 # create a box plot of the final 'yield'
 boxplot_yield(myBGF,timep="max")
-bgf_plot(myBGF,type="yield_box",timep="max")
+if(interactive()) bgf_plot(myBGF,type="yield_box",timep="max")
 
 }
