@@ -1,7 +1,7 @@
 Package: BGFanalyzeR
 Type: Package
 Title: Analyze Microbial Biogas Fermentation Data
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: c(
     person(
       "Maximilian", "Strick",
@@ -10,11 +10,11 @@ Authors@R: c(
     )
   )
 Description: Provides a new 'S3' class object and relevant methods to analyze biogas fermentation data.
-    It includes three workflows. One is specialized to a commercially available labscale fermentation system. 
-    The second provides more flexability and allows to import data from plain text files.
+    It includes three workflows. One is specialized to a commercially available lab-scale fermentation system. 
+    The second provides more flexibility and allows to import data from plain text files.
     The last workflow offers the most flexibility as it doesn't expect external input files but relays on interactive user input.
-    Although the focus is set on bigas fermentations, concepts and workflows may be also applicable to other fermentations where not a gaseous product is measured.
-    The package introduces a new S3 object class, the BGF, and provides methodes to build an manipulate these objects.
+    Although the focus is set on biogas fermentations, concepts and workflows may be also applicable to other fermentations even if not a gaseous product is measured.
+    The package introduces a new S3 object class and provides methods to build an manipulate these objects.
     It furthermore provides functions that bridge to established plot engines for data visualisation.
 License: MIT + file LICENSE
 Encoding: UTF-8
