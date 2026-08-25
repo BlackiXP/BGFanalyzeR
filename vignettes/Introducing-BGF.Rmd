@@ -147,7 +147,7 @@ A `BGF` is an S3 data object with a `list` like structure.
 Each `BGF` has three standard layers.
 These are:
 
-* `ExpParam`: a `list` to store information on the `BGF` itselfe, like its name (`ExpParam$name`) or its measurement type (`ExpParam$MeasurementType`), or information all fermentaions of the `BGF` (should) share like the process temperature (`ExpParam$ProcessTemp`) or the inoculum to substrate ratio (`ExpParam$InocToSubRatio`). 
+* `ExpParam`: a `list` to store information on the `BGF` itself, like its name (`ExpParam$name`) or its measurement type (`ExpParam$MeasurementType`), or information all fermentations of the `BGF` (should) share like the process temperature (`ExpParam$ProcessTemp`) or the inoculum to substrate ratio (`ExpParam$InocToSubRatio`). 
 
 * `metaData`: a `data.frame` that contains information specific for each fermentation in a `BGF`. 
 Three columns exist by default. Each row represents a single fermentation. 

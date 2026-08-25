@@ -11,7 +11,7 @@ An object of class \code{character} of length 24.
 BGF_defaultcolors
 }
 \description{
-The default color set used when plotting a \code{BGF} unsing the \link[=bgf_plot]{advanced plotting ffunctions}.
+The default color set used when plotting a \code{BGF} using the \link[=bgf_plot]{advanced plotting functions}.
 It contains 3 * 8 = 24 colors.
 }
 \keyword{datasets}

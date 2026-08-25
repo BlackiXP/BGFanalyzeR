@@ -19,7 +19,7 @@
 #' @param col either a `character` or an `integer` specifying which column of the `metaData` layer provides information about the organics concentration of the fermentations.
 #' @param reactor a `numeric` providing the total filling volume or mass of the liquid phase of the biogas reactors; default = 400
 #' @param ISRatio default = `NULL`; if specified a `numeric` is expected, providing the inoculum to substrate ratio of a biogas fermentation. If left to the default, a value is extracted from the `ExpParam` layer of the `BGF`
-#' @param VSInoc NOT WORKING default = `NULL`; can be specified if the `BGF` does not contain any 'Blanks' (`get_blanks` returns 'R'). If specified, either a `integer` or `character` is expected that refers to the row in the `metaData` layer from which to take the organics concentration of the inoculum. If left the default, the same organics concentration is assumed for inoculum and substrat
+#' @param VSInoc NOT WORKING default = `NULL`; can be specified if the `BGF` does not contain any 'Blanks' (`get_blanks` returns 'R'). If specified, either a `integer` or `character` is expected that refers to the row in the `metaData` layer from which to take the organics concentration of the inoculum. If left the default, the same organics concentration is assumed for inoculum and substrate
 #' @param subset default = `NULL`; if specified, a `character` vector is expected, declaring a subset of fermentation by their respective row name within the `metaData` layer of the `BGF`
 #' @param digits argument passed to [round]; default = 2
 #'

@@ -2,7 +2,7 @@
 #'
 #' Three helper functions exist that allows users to set up `BGF` objects either from scratch or from external data files.
 #'
-#' All three helper functions internally call `new_BGF()` with distinct parameters arguments pre set.
+#' All three helper functions internally call `new_BGF()` with distinct parameters arguments pre-set.
 #' The easiest way to generate a `BGF` object is the `BGF()` function. It only needs the `ReaktorLayout` argument to be specified by the user and will subsequently create a object of class `BGF`.
 #'
 #' @inheritParams new_BGF
@@ -93,7 +93,7 @@ from_AMPTSV2_report=function(ReactorLayout,BlankLabel="Blank",name="new_BGF",Pro
 #'@rdname BGF
 #'
 #'@param time_col numeric. Indicates the position of the time stamp column in the imported report
-#'@param product_col numeric. Indicates the position of the product column (e.g. cummulative biogas volume) in the imported report
+#'@param product_col numeric. Indicates the position of the product column (e.g. cumulative biogas volume) in the imported report
 #'@inheritParams base::difftime
 #'@param RName character. Label to be added to the data of the imported report. Should match a value of `ReactorLayout`
 #'@param ... further arguments passed to read.table

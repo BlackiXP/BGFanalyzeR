@@ -84,7 +84,7 @@ alter_whatever=function(x,layer,what,value,ID=NULL,feedback=F){
 #' @rdname alter_whatever
 #'
 #' @param reactor_id a `character` identifying a the reactor/ fermentation whose entry in `BioGasData` needs to be changed
-#' @param time_id a `numeric` specifying the time that has passed since fermentation start for the choosen reactor
+#' @param time_id a `numeric` specifying the time that has passed since fermentation start for the chosen reactor
 #' @param col a `character` specifying the name of the column of the `BioGasData` layer that needs to be changed
 #'
 #' @details

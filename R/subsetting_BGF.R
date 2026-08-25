@@ -9,7 +9,7 @@
 #'
 #' @param x,y a `BGF`
 #' @param reactor defaults to `NULL`. Can be an `integer` or `character` specifying the reactors/ fermentations to keep based on the reactor name (= row name of the fermentation in `metaData`-layer)
-#' @param layout defaults to `NULL`.Can be an `integer` or `character` specifying the reactors/ fermentations to keep based on the reactor layout (= respectiv vaslue in the 'Layout' column  of the `metaData`-layer)
+#' @param layout defaults to `NULL`.Can be an `integer` or `character` specifying the reactors/ fermentations to keep based on the reactor layout (= respective value in the 'Layout' column  of the `metaData`-layer)
 #' @param name defaults to `NULL`. Can be a `character` providing a new name for the `BGF`
 #'
 #' @returns a `BGF`

@@ -319,7 +319,7 @@ plot_netProduct_by_Layout=function(x,col=BGFanalyzeR::BGF_defaultcolors[2+3*c(0:
 #' @details
 #' The function `colplot_yield` produces a col plot with reactor layouts on the x-axis and mean 'yield' values per layout on the y-axis.
 #' It can be used if a yield  summary was transferred to the `metaData`-layer using [summarize_yield].
-#' It will generate a colplot with reactor layouts on the x-axis and mean yield values per layout on the y-axis.
+#' It will generate a column-plot with reactor layouts on the x-axis and mean yield values per layout on the y-axis.
 #' With the default settings, fermentations that are marked as 'Excluded' in the `metaData`-layer will not be included in the plot.
 #' The standard deviation around the mean value will be calculated and drawn as an [errorbar][ggplot2::geom_errorbar] if possible.
 #'
@@ -330,7 +330,7 @@ plot_netProduct_by_Layout=function(x,col=BGFanalyzeR::BGF_defaultcolors[2+3*c(0:
 #' @param Excluded `logic`; default is `FALSE`. Should fermentations that are marked as 'Excluded' in the `metaData`-layer appear in the plot?
 #' @param yield_label `logic`; default is `FAlSE`. Should the mean yield be shown as a label on the plot?
 #' @param yield_label_pos a `numeric` specifying the position of the yield label in the plot
-#' @param yield_unit a `character` specifying the unit of the yield. The default is 'Nml/gVS', which is read 'norm milliliter pre gram of volatile solutes'
+#' @param yield_unit a `character` specifying the unit of the yield. The default is 'Nml/gVS', which is read 'norm milliliter per gram of volatile solutes'
 #'
 #' @examples
 #' # create a col plot of the yield
@@ -376,7 +376,7 @@ colplot_yield=function(x,hide=NULL,Excluded=FALSE,col=BGFanalyzeR::BGF_defaultco
 #' @details
 #' The function `boxplot_yield` produces a box plot with reactor layouts on the x-axis and and 'yield' values per layout on the y-axis.
 #' The argument 'timep' can be used to specify how many observations will be used to draw the boxes.
-#' In the default setting, 'all', all avalilabel observations for a layout will be used.
+#' In the default setting, 'all', all available observations for a layout will be used.
 #' Alternatively, to select the final observations 'timep = "max"' can be set.
 #' Furthermore any `numeric` that matches a value in the 'time' column of the `BioGasData`-layer can be passed to 'timep' to select the specific 'yield' value at that time.
 #'

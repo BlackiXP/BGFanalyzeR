@@ -14,7 +14,7 @@
 #' Interpolation and extrapolation are done specifically for groups within the data (argument 'group')
 #'
 #' @param df a `data.frame`
-#' @param x an `integer` specifying the position of the vector with issing values that should be interpolated
+#' @param x an `integer` specifying the position of the vector with missing values that should be interpolated
 #' @param t an `integer` specifying the position of the vector with time data over which to interpolate
 #' @param group an `integer` specifying the position of a grouping vector within the input data
 #' @param end `logic`; default is `TRUE`. Should interpolation end if the last valid 'x' value does not match the final 't' value?

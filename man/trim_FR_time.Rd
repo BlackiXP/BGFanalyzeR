@@ -2,7 +2,7 @@
 % Please edit documentation in R/move_fermentations.R
 \name{trim_FR_time}
 \alias{trim_FR_time}
-\title{Reorientate fermentations of a \code{BGF} by time}
+\title{Re-orientate fermentations of a \code{BGF} by time}
 \usage{
 trim_FR_time(x, value, mode = "all", left_end = TRUE, cut_left = TRUE)
 }
@@ -21,8 +21,8 @@ trim_FR_time(x, value, mode = "all", left_end = TRUE, cut_left = TRUE)
 a \code{BGF}
 }
 \description{
-The function allows to remove data points of individual or all fermetations based on the fermetation/ observation time ('time' column in \code{BiGasData} layer of a \code{BGF}).
-The user can either remove data points later than a specified 'time' value, or substract a specified value from each value in the 'time' column and afterwards optionally remove the resulting times < 0.
+The function allows to remove data points of individual or all fermentations based on the fermentation/ observation time ('time' column in \code{BiGasData} layer of a \code{BGF}).
+The user can either remove data points later than a specified 'time' value, or subtract a specified value from each value in the 'time' column and afterwards optionally remove the resulting times < 0.
 }
 \examples{
 # create example BGF

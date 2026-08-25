@@ -23,7 +23,7 @@ calc_inoc_matrix_from_metaData(
 
 \item{ISRatio}{default = \code{NULL}; if specified a \code{numeric} is expected, providing the inoculum to substrate ratio of a biogas fermentation. If left to the default, a value is extracted from the \code{ExpParam} layer of the \code{BGF}}
 
-\item{VSInoc}{NOT WORKING default = \code{NULL}; can be specified if the \code{BGF} does not contain any 'Blanks' (\code{get_blanks} returns 'R'). If specified, either a \code{integer} or \code{character} is expected that refers to the row in the \code{metaData} layer from which to take the organics concentration of the inoculum. If left the default, the same organics concentration is assumed for inoculum and substrat}
+\item{VSInoc}{NOT WORKING default = \code{NULL}; can be specified if the \code{BGF} does not contain any 'Blanks' (\code{get_blanks} returns 'R'). If specified, either a \code{integer} or \code{character} is expected that refers to the row in the \code{metaData} layer from which to take the organics concentration of the inoculum. If left the default, the same organics concentration is assumed for inoculum and substrate}
 
 \item{subset}{default = \code{NULL}; if specified, a \code{character} vector is expected, declaring a subset of fermentation by their respective row name within the \code{metaData} layer of the \code{BGF}}
 

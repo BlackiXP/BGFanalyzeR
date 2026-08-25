@@ -47,7 +47,7 @@ sort_standardReport(x, rawReport, RName, product_col)
 
 \item{sep}{a single \code{character} specifying the column separator}
 
-\item{units}{the desired unit of the time differnce calculated by \code{calc_FR_time}}
+\item{units}{the desired unit of the time difference calculated by \code{calc_FR_time}}
 
 \item{time_col}{a \code{character} specifying the name of the column with time information in the external data file}
 
@@ -77,7 +77,7 @@ Additional columns can be present and will be imported as well.
 Internally, \code{add_standard_record} calls \link{import_standard_record} to import the data and next it calls \link{calc_FR_time} to calculate a standardized fermentation time for the imported data set.
 Finally, it calls \code{sort_standardReport} to transfer the imported data to the BGF
 The function will not remove empty rows resulting from object creation within the BGF.
-Thus, it is adviced to use \link{update_BGF} to ensure the integrity of the \code{BGF}.
+Thus, it is advised to use \link{update_BGF} to ensure the integrity of the \code{BGF}.
 
 The function \code{add_ExpPara} is called by \code{add_bmp_measurement} and acts as a wrapper for \link{add_ExpParam} to transfer experimental meta data to a \code{BGF} object.
 It expects a \code{list} created by \link{read_raw_AMPTSV2_report} as a second argument.

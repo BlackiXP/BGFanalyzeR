@@ -74,12 +74,12 @@ add_bmp_measurement=function(x,path,mode="auto",feedback=FALSE){
 #' Internally, `add_standard_record` calls [import_standard_record] to import the data and next it calls [calc_FR_time] to calculate a standardized fermentation time for the imported data set.
 #' Finally, it calls `sort_standardReport` to transfer the imported data to the BGF
 #' The function will not remove empty rows resulting from object creation within the BGF.
-#' Thus, it is adviced to use [update_BGF] to ensure the integrity of the `BGF`.
+#' Thus, it is advised to use [update_BGF] to ensure the integrity of the `BGF`.
 #'
 #' @param header `logic`; does the matrix like structure at `path` has a `header`
 #' @param dec a single `character` specifying the decimal separator
 #' @param sep a single `character` specifying the column separator
-#' @param units the desired unit of the time differnce calculated by `calc_FR_time`
+#' @param units the desired unit of the time difference calculated by `calc_FR_time`
 #' @param time_col a `character` specifying the name of the column with time information in the external data file
 #' @param RName a `character` specifying the reactor name of the biogas fermentation to be added. Defaults to 'R1'
 #' @param product_col a `character` specifying the name of the column with the cumulative biogas volume data in the external data file

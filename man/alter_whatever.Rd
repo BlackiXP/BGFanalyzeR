@@ -32,7 +32,7 @@ alter_BG_measurement(
 
 \item{reactor_id}{a \code{character} identifying a the reactor/ fermentation whose entry in \code{BioGasData} needs to be changed}
 
-\item{time_id}{a \code{numeric} specifying the time that has passed since fermentation start for the choosen reactor}
+\item{time_id}{a \code{numeric} specifying the time that has passed since fermentation start for the chosen reactor}
 
 \item{col}{a \code{character} specifying the name of the column of the \code{BioGasData} layer that needs to be changed}
 }

@@ -14,7 +14,7 @@ merge_BGF(x, y, mergeParam = FALSE, x_tag = NULL, y_tag = NULL, name = NULL)
 
 \item{reactor}{defaults to \code{NULL}. Can be an \code{integer} or \code{character} specifying the reactors/ fermentations to keep based on the reactor name (= row name of the fermentation in \code{metaData}-layer)}
 
-\item{layout}{defaults to \code{NULL}.Can be an \code{integer} or \code{character} specifying the reactors/ fermentations to keep based on the reactor layout (= respectiv vaslue in the 'Layout' column  of the \code{metaData}-layer)}
+\item{layout}{defaults to \code{NULL}.Can be an \code{integer} or \code{character} specifying the reactors/ fermentations to keep based on the reactor layout (= respective value in the 'Layout' column  of the \code{metaData}-layer)}
 
 \item{name}{defaults to \code{NULL}. Can be a \code{character} providing a new name for the \code{BGF}}
 

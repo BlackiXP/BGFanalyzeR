@@ -3,8 +3,8 @@
 #' Calculates the fermentation time for a minimal biogas fermentation data set
 #'
 #'
-#' @param standardReport a data.frame with at least one column representing a series of time stemps (%y-%m-%d %H:%M:%S)
-#' @param time_col numeric. indicates which column of standardReport is used to calculate the fermentation time
+#' @param standardReport a data.frame with at least one column representing a series of time stamps (%y-%m-%d %H:%M:%S)
+#' @param time_col numeric. indicates which column of standard report is used to calculate the fermentation time
 #' @param ... further arguments passed to `difftime`
 #'
 #' @returns A data.frame with an additional `$time` column

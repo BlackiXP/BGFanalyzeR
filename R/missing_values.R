@@ -85,7 +85,7 @@ close_gaps=function(x,feedback=FALSE){
 #' The function `na_correction` can be used to close gaps in between or at the end of a fermentation.
 #' Target data columns can be specified as `integer` or `character` in the `which` argument.
 #' Alternatively, `which` can be 'all_num' (the default) to select all numeric columns in the `BioGasData`-layer of a `BGF`.
-#' Internally the function calls [bgf_interpolation] on each column sepcified via the `which` argument.
+#' Internally the function calls [bgf_interpolation] on each column specified via the `which` argument.
 #' Additional arguments passed to `na_correction` will be forwarded to [bgf_interpolation] as well.
 #'
 #'
