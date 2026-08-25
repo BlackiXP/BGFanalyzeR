@@ -26,7 +26,7 @@ netGasGC(
 
 \item{pos}{an \code{integer} indicating where the mass amounts of blanks in each fermentation are stored (see \emph{Note})}
 
-\item{feedback}{\code{logic}, deftault is \code{FALSE}; If \code{TRUE}, the function will print a feedback to the console}
+\item{feedback}{\code{logic}, default is \code{FALSE}; If \code{TRUE}, the function will print a feedback to the console}
 
 \item{percent}{\code{logic}; default is \code{TRUE}. Are the values in the column referenced by the 'purity' argument in percent or in an interval from 0 to 1?}
 

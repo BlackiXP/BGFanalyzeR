@@ -11,7 +11,7 @@
 #' @param purity either a `numeric` indicating the assumed purity (0 - 1) of the product gas for `netGas`, or a `character` or an `integer` referencing the column providing gas quality measurements in the `BioGasData` layer of a `BGF`.
 #' @param substract_blank `logic`; default is `TRUE`. Should the mean product volume produced by blanks be subtracted from fermentations? Fermentations classified as Blanks must exist in the `BGF` (`BGF$metaData$Blank==TRUE`).
 #' @param pos an `integer` indicating where the mass amounts of blanks in each fermentation are stored (see *Note*)
-#' @param feedback `logic`, deftault is `FALSE`; If `TRUE`, the function will print a feedback to the console
+#' @param feedback `logic`, default is `FALSE`; If `TRUE`, the function will print a feedback to the console
 #'
 #' @note
 #' To be able of subtracting the amount of gas produced by blank fermentations from the other fermentations, it is essential to provide the information of how much blank was used to inoculate each fermentation.

@@ -35,7 +35,7 @@ It is called by  \link{from_AMPTSV2_report} when creating a \code{BGF} from an A
 The function \code{na_correction} can be used to close gaps in between or at the end of a fermentation.
 Target data columns can be specified as \code{integer} or \code{character} in the \code{which} argument.
 Alternatively, \code{which} can be 'all_num' (the default) to select all numeric columns in the \code{BioGasData}-layer of a \code{BGF}.
-Internally the function calls \link{bgf_interpolation} on each column sepcified via the \code{which} argument.
+Internally the function calls \link{bgf_interpolation} on each column specified via the \code{which} argument.
 Additional arguments passed to \code{na_correction} will be forwarded to \link{bgf_interpolation} as well.
 }
 \examples{

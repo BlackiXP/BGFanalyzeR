@@ -1,7 +1,7 @@
-#' Reorientate fermentations of a `BGF` by time
+#' Re-orientate fermentations of a `BGF` by time
 #'
-#' The function allows to remove data points of individual or all fermetations based on the fermetation/ observation time ('time' column in `BiGasData` layer of a `BGF`).
-#' The user can either remove data points later than a specified 'time' value, or substract a specified value from each value in the 'time' column and afterwards optionally remove the resulting times < 0.
+#' The function allows to remove data points of individual or all fermentations based on the fermentation/ observation time ('time' column in `BiGasData` layer of a `BGF`).
+#' The user can either remove data points later than a specified 'time' value, or subtract a specified value from each value in the 'time' column and afterwards optionally remove the resulting times < 0.
 #'
 #' @param x a `BGF`
 #' @param value a `numeric`; either the time before or after which data points should be removed (or shifted)

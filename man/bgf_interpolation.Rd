@@ -9,7 +9,7 @@ bgf_interpolation(df, x, t, group, end = TRUE, sub_zero = NULL, offset = 1)
 \arguments{
 \item{df}{a \code{data.frame}}
 
-\item{x}{an \code{integer} specifying the position of the vector with issing values that should be interpolated}
+\item{x}{an \code{integer} specifying the position of the vector with missing values that should be interpolated}
 
 \item{t}{an \code{integer} specifying the position of the vector with time data over which to interpolate}
 

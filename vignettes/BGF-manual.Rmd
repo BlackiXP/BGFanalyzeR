@@ -24,7 +24,7 @@ This vignette covers the general methods of how to manually enter or alter value
 
 ## Setting up a manual BGF 
 
-A manual BGF can be created using BGF() and explicitly setting the MeasurmentType argument.
+A manual BGF can be created using BGF() and explicitly setting the MeasurementType argument.
 Let's build a BGF for two fermentations of Layout "A" and "B".
 
 ```{r setup}
@@ -124,7 +124,7 @@ InocMatrix <- calc_inoc_matrix_from_metaData(myBGF,col = 4,reactor = 5000)
 InocMatrix
 ```
 
-For fermentation A (R1, the 'Blank'), the whole reactor ís filled with inoculum, and for fermentation B (R2), `r InocMatrix["Inoculum","R2"]` ml inoculum (fermenation A, R1) are mixed with `r InocMatrix["Substrate","R2"]` ml fresh substrate.
+For fermentation A (R1, the 'Blank'), the whole reactor is filled with inoculum, and for fermentation B (R2), `r InocMatrix["Inoculum","R2"]` ml inoculum (fermentation A, R1) are mixed with `r InocMatrix["Substrate","R2"]` ml fresh substrate.
 
 For being able to subtract the amount of gas produced by the 'Blank' proportion in a fermentation, one must know the mass of organics (volatile solutes in gram for our example case) originating from the inoculum.
 As we have  the inoculation matrix and the VS concentration for each fermentation, we can add the amount of VS in inoculum and substrate to `metaData`.
@@ -145,10 +145,10 @@ myBGF <- add_metaData(myBGF,
 
 ### Modify BioGasData
 
-Our `BGF` has been created and a lab experiment was succesfully designed.
+Our `BGF` has been created and a lab experiment was successfully designed.
 Now we are ready to add experimental data.
 
-Imagine, in our hypothetical lab we have a fermentation system consisting of a temperarated and stirred reactor, and an analog gas counter where we can manually read the accumulating exhaust gas volume.
+Imagine, in our hypothetical lab we have a fermentation system consisting of a tempered and stirred reactor, and an analog gas counter where we can manually read the accumulating exhaust gas volume.
 
 We start the experiment and read the gas counter value once each day for 30 days.
 Doing this allows to add one new `product` value each day using `add_BG_measurement()`
@@ -171,7 +171,7 @@ myBGF$BioGasData
 We added '0' as the `product` value at '`time`= 0' as in the beginning of a fermentation, no biogas has been formed yet.
 
 Now we continue to add one measurement each day for the following 30 days using the same command.
-We will generate some random gas measurements for our example assuming that the fermnentation has a low but constant gas production:
+We will generate some random gas measurements for our example assuming that the fermentation has a low but constant gas production:
 
 ```{r add-further-values-to-FRA}
 # set seed
@@ -236,7 +236,7 @@ for(i in c(1:length(gas))) myBGF <- add_BG_measurement(myBGF,
 # look at the end of BioGasData-layer to see the effect
 tail(myBGF$BioGasData)
 ```
-Now that we entered product values for both fermentation, we can continue by calculationg further standard fermentation parameters, like production or net gas.
+Now that we entered product values for both fermentation, we can continue by calculating further standard fermentation parameters, like production or net gas.
 For net gas calculation we assume a methane (target gas) concentration of 60 vol.%.
 
 ```{r data-processing}

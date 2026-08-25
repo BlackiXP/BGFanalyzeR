@@ -60,7 +60,7 @@ The third allows to import a \code{BGF} object, that was previously exported fro
 Two of the three data import functions, \code{import_standard_record} and \code{read_raw_AMPTSV2_report} are unlikely to be directly called by a package user.
 Instead, they are called by \code{from_standard_record} or \code{from_AMPTSV2_report}, respectively, when importing an external data file.
 
-The first import function \code{import_standard_record} is more than a wrapper for \link{read.table} with the arguments dec=".", sep="\\t" and header=TRUE pre set.
+The first import function \code{import_standard_record} is more than a wrapper for \link{read.table} with the arguments dec=".", sep="\\t" and header=TRUE pre-set.
 It furthermore allows to calculate a fermentation time directly when importing the data.
 To this end, \code{mkFRTime} must be a \code{character} string representing a date in the format \%y-\%m-\%d \%H:\%M:\%S, \code{FRTime_col} an \code{integer} specifying the position of the time stamp within the data, and \code{units} must be a \code{character} specifying the desired \link[=difftime]{units} of the calculated fermentation time.
 

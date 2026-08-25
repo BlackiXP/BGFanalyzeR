@@ -7,9 +7,9 @@
 calc_FR_time(standardReport, time_col, ...)
 }
 \arguments{
-\item{standardReport}{a data.frame with at least one column representing a series of time stemps (\%y-\%m-\%d \%H:\%M:\%S)}
+\item{standardReport}{a data.frame with at least one column representing a series of time stamps (\%y-\%m-\%d \%H:\%M:\%S)}
 
-\item{time_col}{numeric. indicates which column of standardReport is used to calculate the fermentation time}
+\item{time_col}{numeric. indicates which column of standard report is used to calculate the fermentation time}
 
 \item{...}{further arguments passed to \code{difftime}}
 }

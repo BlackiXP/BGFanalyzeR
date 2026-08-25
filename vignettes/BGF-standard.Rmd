@@ -27,7 +27,7 @@ In the following sections we will see how to build a `BGF` from multiple such st
 ## Background
 The data used during this vignette was acquired from a custom fermentation system. 
 It consisted of a 2l stirred and heated batch reactor.
-This reactor was equipped with several sensors, such as a pH-, temperature- and redox-electrodes, allowing continuously monitoring of essential fermentation parameters.
+This reactor was equipped with several sensors, such as a pH-, temperature- and RedOx-electrodes, allowing continuously monitoring of essential fermentation parameters.
 In addition, the cumulative exhaust gas volume was recorded and the exhaust gas composition (= gas quality) was sequentially analyzed.
 
 The data files used in the following, can be grouped in two groups:
@@ -291,7 +291,7 @@ myBGF <- calc_yield(myBGF,pos = 4)
 bgf_plot(myBGF)
 ```
 
-Let's ty printing the BGF:
+Let's try printing the BGF:
 
 ```{r full_hombrew_BGF}
 # print the BGF
@@ -501,7 +501,7 @@ myBGF2
 
 ```
 
-As we can see, the number of observations in the `BioGasData`-layer has increased indicating a successfull data addition.
+As we can see, the number of observations in the `BioGasData`-layer has increased indicating a successful data addition.
 
 We continue with processing the data.
 First, we check if the data needs trimming and afterwards we can head towards `yield` calculation!

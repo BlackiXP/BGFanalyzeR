@@ -115,7 +115,7 @@ boxplot_yield(
 
 \item{yield_label_pos}{a \code{numeric} specifying the position of the yield label in the plot}
 
-\item{yield_unit}{a \code{character} specifying the unit of the yield. The default is 'Nml/gVS', which is read 'norm milliliter pre gram of volatile solutes'}
+\item{yield_unit}{a \code{character} specifying the unit of the yield. The default is 'Nml/gVS', which is read 'norm milliliter per gram of volatile solutes'}
 
 \item{timep}{a \code{numeric} specifying the time point at which to calculate the  yield for the individual reactor layouts. Alternatively, using the \code{character} expressions 'all' will draw the box over all values in the 'yield' and 'max' will draw the box using the final 'yield' value}
 }
@@ -161,7 +161,7 @@ In the later case, the plot is stored in a \code{list} with the label 'net_produ
 
 The function \code{colplot_yield} produces a col plot with reactor layouts on the x-axis and mean 'yield' values per layout on the y-axis.
 It can be used if a yield  summary was transferred to the \code{metaData}-layer using \link{summarize_yield}.
-It will generate a colplot with reactor layouts on the x-axis and mean yield values per layout on the y-axis.
+It will generate a column-plot with reactor layouts on the x-axis and mean yield values per layout on the y-axis.
 With the default settings, fermentations that are marked as 'Excluded' in the \code{metaData}-layer will not be included in the plot.
 The standard deviation around the mean value will be calculated and drawn as an \link[ggplot2:geom_errorbar]{errorbar} if possible.
 
@@ -170,7 +170,7 @@ In the later case, the plot is stored in a \code{list} with the label 'yield_col
 
 The function \code{boxplot_yield} produces a box plot with reactor layouts on the x-axis and and 'yield' values per layout on the y-axis.
 The argument 'timep' can be used to specify how many observations will be used to draw the boxes.
-In the default setting, 'all', all avalilabel observations for a layout will be used.
+In the default setting, 'all', all available observations for a layout will be used.
 Alternatively, to select the final observations 'timep = "max"' can be set.
 Furthermore any \code{numeric} that matches a value in the 'time' column of the \code{BioGasData}-layer can be passed to 'timep' to select the specific 'yield' value at that time.
 

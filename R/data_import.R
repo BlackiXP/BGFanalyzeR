@@ -7,7 +7,7 @@
 #' Two of the three data import functions, `import_standard_record` and `read_raw_AMPTSV2_report` are unlikely to be directly called by a package user.
 #' Instead, they are called by `from_standard_record` or `from_AMPTSV2_report`, respectively, when importing an external data file.
 #'
-#' The first import function `import_standard_record` is more than a wrapper for [read.table] with the arguments dec=".", sep="\\t" and header=TRUE pre set.
+#' The first import function `import_standard_record` is more than a wrapper for [read.table] with the arguments dec=".", sep="\\t" and header=TRUE pre-set.
 #' It furthermore allows to calculate a fermentation time directly when importing the data.
 #' To this end, `mkFRTime` must be a `character` string representing a date in the format %y-%m-%d %H:%M:%S, `FRTime_col` an `integer` specifying the position of the time stamp within the data, and `units` must be a `character` specifying the desired [units][difftime] of the calculated fermentation time.
 #'
