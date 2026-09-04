@@ -53,21 +53,21 @@ close_gaps=function(x,feedback=FALSE){
     value=x$BioGasData$product[i] # as well as the 'volume' value
     value2=x$BioGasData$production[i] # as well as the 'volume' value
 
-    while(is.na(value)){ # check if value is 'NA'
+    while(is.na(value)&&length(value)>0){ # check if value is 'NA'
       new_value <- subset(x$BioGasData,x$BioGasData$reactor==lab) # if this is TRUE, subset the 'BioGasData' to conatain only obs of the same reactor
       new_value <- subset(new_value,new_value$time==new_value$time[which(new_value$time ==now)-1]) # then further subset the data to have the previous obs
       new_value <- new_value$product # store the corresponding 'volume' value
       value=new_value # set value to the stored new value
     }
 
-    while(is.na(value2)){ # check if value2 is 'NA'
+    while(is.na(value2)&&length(value2)>0){ # check if value2 is 'NA'
       new_value <- subset(x$BioGasData,x$BioGasData$reactor==lab) # if this is TRUE, subset the 'BioGasData' to conatain only obs of the same reactor
       new_value <- subset(new_value,new_value$time==new_value$time[which(new_value$time ==now)-1]) # then further subset the data to have the previous obs
       new_value <- new_value$production # store the corresponding 'production' value
       value2=new_value # set value to the stored new value
     }
-    x$BioGasData$product[i]=value # override the 'volume' value of  interest with the newly identified valid value
-    x$BioGasData$production[i]=value2 # override the 'production' value of  interest with the newly identified valid value
+    if(length(value)>0) x$BioGasData$product[i]=value # override the 'volume' value of  interest with the newly identified valid value
+    if(length(value2)>0) x$BioGasData$production[i]=value2 # override the 'production' value of  interest with the newly identified valid value
 
 
   }
