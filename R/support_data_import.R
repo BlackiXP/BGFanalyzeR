@@ -48,14 +48,19 @@ add_bmp_measurement=function(x,path,mode="auto",feedback=FALSE){
 
     rawReport=read_raw_AMPTSV2_report(path) # create a rawReport form the file in 'path'
 
-    x<-add_ExpPara(x,rawReport,feedback = F) # apply 'add_ExpPara()'
+    x<-add_ExpPara(x,rawReport,feedback = FALSE) # apply 'add_ExpPara()'
 
-    x<-add_ExpSetup(x,rawReport,feedback = F) # apply 'add_ExpSetup()'
+    x<-add_ExpSetup(x,rawReport,feedback = FALSE) # apply 'add_ExpSetup()'
 
     x<-sort_AMPTSV2_reactors(x,rawReport,feedback = feedback) # apply 'sort_AMPTSV2_reactors()'
 
     # give feedback
-    if(isTRUE(feedback)) print(paste0("Imported data from '",basename(path),"' and added it to ",x$ExpParam$name,"..."),quote=F)
+    if(isTRUE(feedback)){
+
+      m1 <- paste0("Imported data from '",basename(path),"' and added it to ",x$ExpParam$name,"...")
+
+      message(m1)
+    }
 
   }
 
@@ -113,7 +118,13 @@ add_standard_record=function(x,path,header=TRUE,dec=".",sep="\t",units="hours",t
 
   rawReport<-import_standard_record(path,header=header,dec=dec,sep=sep) # create a rawReport form the file in 'path'
 
-  if(isTRUE(feedback)) print(paste0("Standard record imported from '",path,"'..."),quote = F)
+  if(isTRUE(feedback)){
+
+    m1 <- paste0("Standard record imported from '",path,"'...")
+
+    message(m1)
+
+    }
 
   rawReport <- calc_FR_time(rawReport,time_col=time_col,units=units)
 
@@ -149,7 +160,7 @@ add_standard_record=function(x,path,header=TRUE,dec=".",sep="\t",units="hours",t
 #'
 
 # add_ExpPara() ####
-add_ExpPara=function(x,rawReport,feedback = F){
+add_ExpPara=function(x,rawReport,feedback = FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -185,7 +196,7 @@ add_ExpPara=function(x,rawReport,feedback = F){
 #'
 
 # add_ExpSetup() ####
-add_ExpSetup=function(x,rawReport,feedback=F){
+add_ExpSetup=function(x,rawReport,feedback=FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -216,7 +227,7 @@ add_ExpSetup=function(x,rawReport,feedback=F){
 #'
 
 # sort_AMPTSV2_reactors() ####
-sort_AMPTSV2_reactors=function(x,rawReport,feedback=F){
+sort_AMPTSV2_reactors=function(x,rawReport,feedback=FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
