@@ -305,19 +305,36 @@ add_BG_parameter=function(x,parameter,reactor,time=NULL,value=NULL,name=NULL,mak
       x$BioGasData[{{i_pos}},{{name}}]=value[{{i_pos}}]
     }
 
-    # add the remaining 'reactor', 'time', 'value' pairs at the end of 'x$BioGasData'
-    x$BioGasData[c(nrow(x$BioGasData):nrow(x$BioGasData)+length(value[-positions])),]=NA
-    x$BioGasData[c((nrow(x$BioGasData)-(length(value[-positions])-1)):nrow(x$BioGasData)),"reactor"]=reactor[-positions]
-    x$BioGasData[c((nrow(x$BioGasData)-(length(value[-positions])-1)):nrow(x$BioGasData)),"time"]=time[-positions]
-    x$BioGasData[c((nrow(x$BioGasData)-(length(value[-positions])-1)):nrow(x$BioGasData)),{{name}}]=value[-positions]
+    missing_positions <- setdiff(seq_along(value), positions)
 
-  }else{ # or if 'length(positions)' is NOT greater 0, just add the data at the end of 'x$BioGasData'
+    if (length(missing_positions) > 0) {
 
-    x$BioGasData[c(nrow(x$BioGasData):nrow(x$BioGasData)+length(value)),]=NA
-    x$BioGasData[c((nrow(x$BioGasData)-(length(value)-1)):nrow(x$BioGasData)),"reactor"]=reactor
-    x$BioGasData[c((nrow(x$BioGasData)-(length(value)-1)):nrow(x$BioGasData)),"time"]=time
-    x$BioGasData[c((nrow(x$BioGasData)-(length(value)-1)):nrow(x$BioGasData)),{{name}}]=value
+      old_n <- nrow(x$BioGasData)
+      new_n <- length(missing_positions)
 
+      x$BioGasData[(old_n + 1):(old_n + new_n), ] <- NA
+
+      x$BioGasData[(old_n + 1):(old_n + new_n), "reactor"] <-
+        reactor[missing_positions]
+
+      x$BioGasData[(old_n + 1):(old_n + new_n), "time"] <-
+        time[missing_positions]
+
+      x$BioGasData[(old_n + 1):(old_n + new_n), name] <-
+        value[missing_positions]
+    }
+
+  } else {
+    old_n <- nrow(x$BioGasData)
+    new_n <- length(value)
+
+    if (new_n > 0) {
+      x$BioGasData[(old_n + 1):(old_n + new_n), ] <- NA
+
+      x$BioGasData[(old_n + 1):(old_n + new_n), "reactor"] <- reactor
+      x$BioGasData[(old_n + 1):(old_n + new_n), "time"] <- time
+      x$BioGasData[(old_n + 1):(old_n + new_n), name] <- value
+    }
   }
 
   x$BioGasData<-dplyr::arrange(x$BioGasData,time) # sort the data by time
