@@ -17,7 +17,7 @@ plot_curve(
   x,
   what,
   color,
-  col = BGFanalyzeR::BGF_defaultcolors,
+  col = bgfanalyzer::BGF_defaultcolors,
   coltitle = "Reactor:",
   col_names = NULL,
   title = NULL,
@@ -36,7 +36,7 @@ plot_rel_production_curve(x, ...)
 
 plot_netProduct_by_Layout(
   x,
-  col = BGFanalyzeR::BGF_defaultcolors[2 + 3 * c(0:7)],
+  col = bgfanalyzer::BGF_defaultcolors[2 + 3 * c(0:7)],
   coltitle = "Layout:",
   col_names = NULL,
   title = NULL,
@@ -51,7 +51,7 @@ colplot_yield(
   x,
   hide = NULL,
   Excluded = FALSE,
-  col = BGFanalyzeR::BGF_defaultcolors[2 + 3 * c(0:7)],
+  col = bgfanalyzer::BGF_defaultcolors[2 + 3 * c(0:7)],
   coltitle = "Layout:",
   col_names = NULL,
   title = NULL,
@@ -67,7 +67,7 @@ boxplot_yield(
   timep = "all",
   hide = NULL,
   Excluded = FALSE,
-  col = BGFanalyzeR::BGF_defaultcolors[2 + 3 * c(0:7)],
+  col = bgfanalyzer::BGF_defaultcolors[2 + 3 * c(0:7)],
   coltitle = "Layout:",
   col_names = NULL,
   title = NULL,
@@ -186,7 +186,7 @@ myBGF <- from_AMPTSV2_report(
         name = "myBGF",
         ProcessTemp = 40,
         InocToSubRatio = 2,
-        path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+        path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 
 
 # generate all plots for the BGF

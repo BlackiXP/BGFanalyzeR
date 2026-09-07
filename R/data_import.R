@@ -1,7 +1,7 @@
 #' Data import functions
 #'
-#' The `BGFanalyzeR` package has three data import functions.
-#' Two are called internally by the helper functions [from_standard_report][BGFanalyzeR::BGF] or [from_AMPTV2_report][BGFanalyzeR::BGF] when creating a new `BGF` object.
+#' The `bgfanalyzer` package has three data import functions.
+#' Two are called internally by the helper functions [from_standard_report][bgfanalyzer::BGF] or [from_AMPTV2_report][bgfanalyzer::BGF] when creating a new `BGF` object.
 #' The third allows to import a `BGF` object, that was previously exported from R.
 #'
 #' Two of the three data import functions, `import_standard_record` and `read_raw_AMPTSV2_report` are unlikely to be directly called by a package user.
@@ -24,14 +24,14 @@
 #'@examples
 #'# import biogas fermentation from a .tsv file
 #' stRep <- import_standard_record(
-#'       ipath = base::system.file("extdata","Fermentation_B.tsv",package ="BGFanalyzeR"),
+#'       ipath = base::system.file("extdata","Fermentation_B.tsv",package ="bgfanalyzer"),
 #'       header=TRUE,
 #'       dec=".",
 #'       sep="\t")
 #'
 #'# calculate a fermentation time while importing the data
 #' stRep_frt <- import_standard_record(
-#'         ipath = base::system.file("extdata","Fermentation_B.tsv",package ="BGFanalyzeR"),
+#'         ipath = base::system.file("extdata","Fermentation_B.tsv",package ="bgfanalyzer"),
 #'         header=TRUE,
 #'         dec=".",
 #'         sep="\t",
@@ -77,7 +77,7 @@ import_standard_record=function(ipath,dec=".",sep="\t",header=TRUE,mkFRTime=NULL
 #'
 #'# create a list that can be used as a template to build a BGF
 #' RawReport <- read_raw_AMPTSV2_report(
-#'         path = base::system.file("extdata","AMPTSV2.csv",package ="BGFanalyzeR"))
+#'         path = base::system.file("extdata","AMPTSV2.csv",package ="bgfanalyzer"))
 #'
 #' @export
 #'
@@ -130,11 +130,11 @@ read_raw_AMPTSV2_report=function(path,sub="\\\""){
 #'
 #'# import a BGF from a '.csv'-file
 #' BGF_csv <- import_BGF_object(
-#'       path = base::system.file("extdata","importable_BGF_object.csv",package = "BGFanalyzeR"))
+#'       path = base::system.file("extdata","importable_BGF_object.csv",package = "bgfanalyzer"))
 #'
 #'# import a BGF from a '.RDS'-file
 #' BGF_rds <- import_BGF_object(
-#'       path = base::system.file("extdata","importable_BGF_object.RDS",package = "BGFanalyzeR"))
+#'       path = base::system.file("extdata","importable_BGF_object.RDS",package = "bgfanalyzer"))
 #'
 #' @export
 #'

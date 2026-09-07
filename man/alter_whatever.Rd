@@ -58,7 +58,7 @@ myBGF <- from_AMPTSV2_report(
         name = "Test",
         InocToSubRatio=2,
         ProcessTemp = 52,
-        path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR")
+        path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer")
         )
 
 # change name to 'newName'

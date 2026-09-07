@@ -52,7 +52,7 @@ myBGF <- from_AMPTSV2_report(
         name = "myBGF",
         InocToSubRatio=2,
         ProcessTemp = 52,
-        path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+        path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 myBGF
 
 # subset using 'reactor' argument

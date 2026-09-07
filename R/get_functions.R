@@ -32,7 +32,7 @@
 
 
 # get_layer() ####
-get_layer=function(x,layer,feedback=F){
+get_layer=function(x,layer,feedback=FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class basic_BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -58,7 +58,12 @@ get_layer=function(x,layer,feedback=F){
   out <- x[[layer]] # extract 'layer'
 
   # give feedback
-  if(feedback==T) print(paste0(layer," extracted from ",x[["ExpParam"]][["name"]],"!"),quote=F) # give feedback
+  if(feedback==T) {
+    m1 <- paste0(layer," extracted from ",x[["ExpParam"]][["name"]],"!")
+    
+    message(m1)
+    }
+   # give feedback
 
   return(out) # return value of x[["var"]][[what]]
 
@@ -79,7 +84,7 @@ get_layer=function(x,layer,feedback=F){
 
 
 ## get_whatever() ####
-get_whatever=function(x,layer,what,feedback=F){
+get_whatever=function(x,layer,what,feedback=FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class basic_BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -108,7 +113,7 @@ get_whatever=function(x,layer,what,feedback=F){
          call. = FALSE)
   }
 
-  var <- get_layer(x,layer,F) # extract 'layer'
+  var <- get_layer(x,layer,FALSE) # extract 'layer'
 
   opts<-names(var) # get names of '$var'
 
@@ -124,7 +129,11 @@ get_whatever=function(x,layer,what,feedback=F){
   out <- var[[what]] # extract the desired value of '$var' as a character
 
   # give feedback
-  if(feedback==T) print(paste0(paste0(x[["ExpParam"]][["name"]],":",layer)," has '",what,"': ",out),quote=F) # give feedback
+  if(feedback==TRUE){
+    m1 <- paste0(paste0(x[["ExpParam"]][["name"]],":",layer)," has '",what,"': ",out)
+    
+    message(m1)
+    } # give feedback
 
   return(out) # return value of x[["var"]][[what]]
 }
@@ -141,12 +150,18 @@ get_whatever=function(x,layer,what,feedback=F){
 #'
 
 ### get_MeasurementType() ####
-get_MeasurementType=function(x,feedback = F){
+get_MeasurementType=function(x,feedback = FALSE){
   out <- get_whatever(x,"ExpParam","MeasurementType") # apply 'get_whatever' with 'layer="ExpParam"' and 'what="MeasurementType"' pre set
 
   # give feedback
-  if(isTRUE(feedback)){print(paste(x[["ExpParam"]][["name"]],"has 'MeasurementType':"),quote=F)
-    print(out)} # give feedback
+  if(isTRUE(feedback)){
+    
+    m1 <- paste(x[["ExpParam"]][["name"]],"has 'MeasurementType':","\n")
+    paste0(m1,out)
+    
+    message(m1)
+    
+    } # give feedback
 
   return(out) # return 'MeasurementType' of 'x'
 }
@@ -164,11 +179,16 @@ get_MeasurementType=function(x,feedback = F){
 
 
 ### get_ReactorLayout() ####
-get_ReactorLayout=function(x,feedback=F){
+get_ReactorLayout=function(x,feedback=FALSE){
   out <- get_whatever(x,"metaData","Layout") # apply 'get_whatever' with 'layer="metaData"' and 'what="Layout"' pre set
 
   # give feedback
-  if(feedback==T) print(paste(x[["ExpParam"]][["name"]],"has 'ReactorLayout':"),quote=F)
+  if(feedback==TRUE){ 
+    m1 <-paste(x[["ExpParam"]][["name"]],"has 'ReactorLayout':","\n")
+    m1 <- paste0(m1,out)
+    
+    message(m1)
+    }
 
   return(out) # return 'ReactorLayout' as factor
 }
@@ -186,7 +206,7 @@ get_ReactorLayout=function(x,feedback=F){
 
 
 ### get_BlankLabel() ####
-get_BlankLabel=function(x,feedback=F){
+get_BlankLabel=function(x,feedback=FALSE){
   metaData <- get_layer(x,"metaData") # extract meta data
 
   out <- dplyr::pull(.data =  dplyr::filter(.data = metaData,.data$Blank==T),.data$Layout) # extract BlankLabel from metaData
@@ -196,8 +216,13 @@ get_BlankLabel=function(x,feedback=F){
          call. = FALSE)
   }
 
-  if(feedback==T){print(paste0(x[["ExpParam"]][["name"]]," has 'BlankLabel':"),quote=F)
-    print(out)} # give feedback
+  if(feedback==TRUE){
+    
+    m1 <- paste0(x[["ExpParam"]][["name"]]," has 'BlankLabel':")
+    paste0(m1,out)
+    
+    message(m1)
+    } # give feedback
 
   return(out) # return 'BlankLabel' as factor
 }
@@ -217,10 +242,10 @@ get_BlankLabel=function(x,feedback=F){
 #'
 
 ### get_Excluded() ####
-get_Excluded=function(x,feedback=F){
+get_Excluded=function(x,feedback=FALSE){
   out<-get_whatever(x,"metaData","Excluded",feedback = feedback) # apply 'get_whatever()' with 'layer="metaData"' and 'what="Excluded"' pre set
 
-  out<-grep(T,out) # identify the position of excluded reactors
+  out<-grep(TRUE,out) # identify the position of excluded reactors
 
   out<-rownames(x[["metaData"]])[out] # generate a reactor number for each excluded reactor
 
@@ -239,10 +264,10 @@ get_Excluded=function(x,feedback=F){
 #'
 
 ### get_blanks() ####
-get_blanks=function(x,feedback=F){
+get_blanks=function(x,feedback=FALSE){
   out<-get_whatever(x,"metaData","Blank",feedback = feedback) # apply 'get_whatever()' with 'layer="metaData"' and 'what="Blank"' pre set
 
-  out<-grep(T,out) # identify the position of blank reactors
+  out<-grep(TRUE,out) # identify the position of blank reactors
 
   out<-rownames(x[["metaData"]])[out] # generate a reactor number for each blank reactor
 
@@ -263,7 +288,7 @@ get_blanks=function(x,feedback=F){
 #'         name = "myBGF2",
 #'         InocToSubRatio = 2,
 #'         ProcessTemp = 52,
-#'         path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+#'         path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 #'
 #' # extract yield summary
 #' get_yield_summary(myBGF2)
@@ -273,7 +298,7 @@ get_blanks=function(x,feedback=F){
 
 
 # get_yield_summary() ####
-get_yield_summary=function(x,Excluded=F,feedback=T){
+get_yield_summary=function(x,Excluded=FALSE,feedback=TRUE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class basic_BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -281,7 +306,7 @@ get_yield_summary=function(x,Excluded=F,feedback=T){
 
   out<-x$metaData[,c("Layout","yield","sd_yield","production","sd_production","time_production","sd_time_production","Excluded")]
 
-  if(isFALSE(Excluded)) out<-subset(out,out$Excluded==F)
+  if(isFALSE(Excluded)) out<-subset(out,out$Excluded==FALSE)
 
   out[,c(2:7)]<-as.data.frame(lapply(out[,c(2:7)], as.numeric))
 
@@ -292,7 +317,7 @@ get_yield_summary=function(x,Excluded=F,feedback=T){
   out=out[,c(2:7)]
 
 
-  if(isTRUE(feedback)) print(out)
+  if(isTRUE(feedback)) message(paste(utils::capture.output(out),collapse = "\n"))
 
   return(out)
 }

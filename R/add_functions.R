@@ -21,7 +21,7 @@
 #'         name = "Test",
 #'         InocToSubRatio=2,
 #'         ProcessTemp = 52,
-#'         path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR")
+#'         path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer")
 #'         )
 #'
 #' # add a start date to 'ExpParam'
@@ -70,10 +70,11 @@ add_whatever=function(x,layer,what,lab="newData",feedback=F){
 
   # give feedback
   if(feedback==T){
-    print(paste0(x[["ExpParam"]][["name"]],":",layer," was modified...",quote=F))
-    print(what)
-    print("... was added!",quote=F)
+    m1 <- paste0(x[["ExpParam"]][["name"]],":",layer," was modified...","\n",what,"\n","... was added!")
+    message(m1)
+    
   }
+  
 
   validate_BGF(x) # check integrity of x
 
@@ -94,11 +95,11 @@ add_whatever=function(x,layer,what,lab="newData",feedback=F){
 
 
 ## add_ExpParam() ####
-add_ExpParam=function(x,what,feedback=F){
+add_ExpParam=function(x,what,feedback=FALSE){
   x<-add_whatever(x = x,layer = "ExpParam",what = what,feedback = feedback) # apply 'add_whatever()' with 'layer="ExpParam"'
 
   validate_BGF(x) # check integrity of x
-
+  
   return(x) # return modified x
 }
 
@@ -120,7 +121,7 @@ add_ExpParam=function(x,what,feedback=F){
 #'
 
 ## add_metaData() ####
-add_metaData=function(x,what,makeCol=TRUE,lab="newData",feedback=F){
+add_metaData=function(x,what,makeCol=TRUE,lab="newData",feedback=FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -128,14 +129,10 @@ add_metaData=function(x,what,makeCol=TRUE,lab="newData",feedback=F){
 
   evaluName <- length(grep(lab,names(x[["metaData"]]))) # evaluate if 'lab' is already part of names(x$metaData)
 
-  #if(evaluName>0) tmp_name <- paste(lab,evaluName+1) else tmp_name=lab # generate a name for the new metaData column
 
   if(isTRUE(makeCol)){if(evaluName>0) tmp_name <- paste(lab,evaluName+1) else tmp_name=lab # generate a name for the new metaData column
   }else{tmp_name=lab}
-  #x<-add_whatever(x = x,layer = "metaData",what = what,feedback = feedback) # apply 'add_whatever()' with 'layer="metaData" pre set
   x<-add_whatever(x = x,layer = "metaData",what = what,lab = tmp_name,feedback = feedback) # apply 'add_whatever()' with 'layer="metaData" pre set
-
-   #names(x[["metaData"]])[length(names(x[["metaData"]]))]<-tmp_name # adjust the name for the new data
 
   validate_BGF(x) # check integrity of x
 
@@ -161,7 +158,7 @@ add_metaData=function(x,what,makeCol=TRUE,lab="newData",feedback=F){
 #'
 
 # add_BG_measurement() ####
-add_BG_measurement=function(x,reactor,time,col,measurement,feedback=F){
+add_BG_measurement=function(x,reactor,time,col,measurement,feedback=FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -197,7 +194,7 @@ add_BG_measurement=function(x,reactor,time,col,measurement,feedback=F){
 #'         ReactorLayout = "A",
 #'         ProcessTemp = 80,
 #'         InocToSubRatio = .1,
-#'         path = base::system.file("extdata","Fermentation_A.tsv",package = "BGFanalyzeR"),
+#'         path = base::system.file("extdata","Fermentation_A.tsv",package = "bgfanalyzer"),
 #'         time_col = 1,
 #'         product_col = 3)
 #'
@@ -206,7 +203,7 @@ add_BG_measurement=function(x,reactor,time,col,measurement,feedback=F){
 #'         ipath = base::system.file(
 #'             "extdata",
 #'             "gasq_A.tsv",
-#'             package = "BGFanalyzeR"
+#'             package = "bgfanalyzer"
 #'          ),
 #'         mkFRTime = "2025-01-15 17:00:00",
 #'         FRTime_col = 1,
@@ -260,11 +257,6 @@ add_BG_parameter=function(x,parameter,reactor,time=NULL,value=NULL,name=NULL,mak
 
     time=parameter[,{{time}}] # overwrite 'time' with 'parameter[,time]'
     value=parameter[,{{value}}] # overwrite 'value' with 'parameter[,value]'
-    #value=value[-which(time==x$BioGasData$time[positions])]
-    #time=time[-which(time==x$BioGasData$time[positions])]
-
-
-
 
   }else{ # otherwise treat parameter as vector
     if(isFALSE(length(parameter)==length(time))){
@@ -350,10 +342,6 @@ add_BG_parameter=function(x,parameter,reactor,time=NULL,value=NULL,name=NULL,mak
   }
 
   if(isTRUE(interpolate_missing)){
-    # if(isTRUE(is.na(subset(x$BioGasData,x$BioGasData$reactor=={{reactor}})[1,{{name}}]))){
-    #   el_id <- which(x$BioGasData$reactor==unique({{reactor}}))[1]
-    #   x$BioGasData[el_id,{{name}}] <- 0
-    # }
     x$BioGasData[,{{name}}]<-zoo::na.approx(x$BioGasData[,{{name}}],na.rm=F)
     x$BioGasData[,{{name}}]<-zoo::na.locf(x$BioGasData[,{{name}}])
   }

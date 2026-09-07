@@ -62,7 +62,7 @@ myBGF <- BGF(
 # add data to BGF
 myBGF <- add_bmp_measurement(
         x = myBGF,
-        path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+        path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 
 # correct data
 myBGF <- cols_to_numeric(myBGF)
@@ -91,7 +91,7 @@ myBGF2 <- from_standard_record(
         ReactorLayout = "A",
         ProcessTemp = 80,
         InocToSubRatio = .1,
-        path = base::system.file("extdata","Fermentation_A.tsv",package = "BGFanalyzeR"),
+        path = base::system.file("extdata","Fermentation_A.tsv",package = "bgfanalyzer"),
         time_col = 1,
         product_col = 3)
 

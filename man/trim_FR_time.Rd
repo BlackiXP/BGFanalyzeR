@@ -32,7 +32,7 @@ myBGF <- from_AMPTSV2_report(
         BlankLabel = "Meso",
         name = "myBGF",
         ProcessTemp = 42,
-        path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"),
+        path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"),
         InocToSubRatio = 2,
         feedback = TRUE)
 

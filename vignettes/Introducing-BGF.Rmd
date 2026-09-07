@@ -1,8 +1,8 @@
 ---
-title: "Introducing the BGFanalyzeR Package"
+title: "Introducing the bgfanalyzer Package"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introducing the BGFanalyzeR Package}
+  %\VignetteIndexEntry{Introducing the bgfanalyzer Package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -46,9 +46,9 @@ ggplot(mapping = aes(dimensi,dimensi))+
   geom_rect(aes(xmin=8.5,xmax=37.5,ymin=7,ymax=33),color="steelblue",alpha=.0009,linewidth=1.5)+
   geom_text(mapping = aes(x=23,y=30,label="R programming language"),size=basefont,color="steelblue")+
 
-  ## Box 1 BGFanalyzeR ####
+  ## Box 1 bgfanalyzer ####
   geom_rect(aes(xmin=10,xmax=20,ymin=8,ymax=27),fill="orange",alpha=.02,color="black")+
-  geom_text(mapping = aes(x=15,y=25,label="BGFanalyzeR"),size=basefont,color="white")+
+  geom_text(mapping = aes(x=15,y=25,label="bgfanalyzer"),size=basefont,color="white")+
 
   geom_rect(aes(xmin=11,xmax=19,ymin=11,ymax=16),fill="orange",color="black")+
   geom_text(mapping = aes(x=15,y=13.7,label="data analysis/\nprocessing"),size=(basefont-fontstep),color="white")+
@@ -94,7 +94,7 @@ ggplot(mapping = aes(dimensi,dimensi))+
   geom_text(mapping = aes(x=20,y=50,label="Lab experiments /\nSeries of fermentations"),size=basefont,color="white")+
 
   # connections ####
-  ## Idea to BGFanalyzeR ####
+  ## Idea to bgfanalyzer ####
   geom_line(mapping = aes(x=c(-.5,10.5),y=c(19,19)),linewidth=2.3,arrow=arrow(angle = 30, length = unit(0.25, "inches"),
                                                                               ends = "both", type = "open"))+
   geom_text(aes(x=5,y=20.5,label="conception"),size=basefont)+
@@ -105,12 +105,12 @@ ggplot(mapping = aes(dimensi,dimensi))+
                                                                                                                                 ends = "last", type = "open"))+
   geom_text(aes(x=-3.,y=43.,label="leads to"),angle=55,size=basefont)+
 
-  ## BGFanalyzeR to Plots ####
+  ## bgfanalyzer to Plots ####
   geom_line(mapping = aes(x=c(17,2),y=c(8.5,-9)),linewidth=2.3,arrow=arrow(angle = 30, length = unit(0.25, "inches"),
                                                                                 ends = "first", type = "open"))+
   geom_text(aes(x=8.5,y=1.5,label="visualize"),angle=33,size=basefont)+
 
-  ## BGFanalyzeR to data formats ####
+  ## bgfanalyzer to data formats ####
   geom_line(mapping = aes(x=c(17,17),y=c(8.5,-10)),linewidth=2.3,arrow=arrow(angle = 30, length = unit(0.25, "inches"),
                                                                                 ends = "last", type = "open"))+
   geom_text(aes(x=17,y=-1.,label="data storage /\nexchange"),angle=90,size=basefont)+
@@ -120,7 +120,7 @@ ggplot(mapping = aes(dimensi,dimensi))+
                                                                          ends = "last", type = "open"))+
   geom_text(aes(x=31,y=1.5,label="allows"),angle=90,size=basefont)+
 
-  ## Lab experiments to BGFanalyzeR ####
+  ## Lab experiments to bgfanalyzer ####
   geom_line(mapping = aes(x=c(12,12),y=c(46.5,26.5)),linewidth=2.3,arrow=arrow(angle = 30, length = unit(0.25, "inches"),
                                                                           ends = "last", type = "open"))+
   geom_text(aes(x=12,y=36.5,label="Input\ndata"),angle=90,size=basefont)
@@ -178,14 +178,14 @@ We wanted to make working with a `BGF`'s as easy as possible for everyone and th
 
 Second, the S3 system offers a high degree of flexibility, so every user is free to add new layers to the `BGF` as needed. 
 One could imagine to add a fourth layer with e.g. sequencing results of microbial community of individual fermentations.
-However, the focus of the `BGFanalyzeR` package is the analysis biogas fermentation data and the general advice is to not change the three-layer architecture of a `BGF`.
+However, the focus of the `bgfanalyzer` package is the analysis biogas fermentation data and the general advice is to not change the three-layer architecture of a `BGF`.
 
 ## Building a `BGF`
 
 The simplest way for an R user to create a `BGF` is the `BGF()` function. It requires only the `ReactorLayout` argument to be set and will then create a BGF.
 
 ```{r first-BGF}
-library(BGFanalyzeR)
+library(bgfanalyzer)
 
 # create an example BGF with five fermentations having the reactor layout "A", "B", "C", "D", "E"
 myBGF <- BGF(ReactorLayout = LETTERS[1:5])
@@ -295,7 +295,7 @@ namedBGF$BioGasData
 
 Both contain only `NA` values.
 This is because during object creation with `BGF()` no data exists to be filled in the `BioGasData`-layer, but as for each fermentation at least one observation in `BioGasData`-layer should exist, these empty lines are created.
-They will be removed as soon as a `BGF` is updated with `update_BGF()`, which automatically happens during object creation with `from_standard_record()` or `from_AMPTSV2_report()`, or when a `BGF` is manipulated with dedicated functions of the `BGFanalyzeR` package.
+They will be removed as soon as a `BGF` is updated with `update_BGF()`, which automatically happens during object creation with `from_standard_record()` or `from_AMPTSV2_report()`, or when a `BGF` is manipulated with dedicated functions of the `bgfanalyzer` package.
 
 Normally `update_BGF()` is not called by the package user directly, but here for illustration purpose:
 
@@ -317,7 +317,7 @@ The resulting `BGF` has no observations in the `BioGasData`-layer.
 Building `BGF`'s with `BGF()` is nice but it objects created that way lack any experimental data. 
 For the topic of how to get data into a `BGF`, several workflows exist, which all have a dedicated vignette ().
 
-For the rest of this vignette, the focus is on how data visualization works with the `BGFanalyzeR` package.
+For the rest of this vignette, the focus is on how data visualization works with the `bgfanalyzer` package.
 
 To this end we need a `BGF` with data.
 The package provides an example data set `LabscaleBiogas`, which is sufficient for this purpose.
@@ -468,9 +468,9 @@ In this case the default value 'all' is used and all of the above mentioned plot
 
 ## Further information
 As mentioned above, different workflows of getting data into a `BGF` exist, which all have their own vignettes.
-For educational purpose it is recommended to read at least the vignettes for AMPTS II-generated, and standard report-based `BGF`'s as this will build a holistic impression of the `BGFanalyzeR` package.
+For educational purpose it is recommended to read at least the vignettes for AMPTS II-generated, and standard report-based `BGF`'s as this will build a holistic impression of the `bgfanalyzer` package.
 
 Furthermore, the vignette on manual `BGF`'s provides a deeper impression and shows how the package can help planing and setting up real world experiments.
 
-In addition to the vignettes, the `BGFanalyzeR` package also provides a detailed documentation on each function.
+In addition to the vignettes, the `bgfanalyzer` package also provides a detailed documentation on each function.
 If still open questions remain, don't hesitate in contacting the authors.

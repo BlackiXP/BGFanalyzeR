@@ -106,7 +106,7 @@ myBGF2<-from_AMPTSV2_report(
         name = "myBGF2",
         InocToSubRatio = 2,
         ProcessTemp = 52,
-        path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+        path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 
 # extract yield summary
 get_yield_summary(myBGF2)

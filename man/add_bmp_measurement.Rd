@@ -102,7 +102,7 @@ myBGF # print the BGF
 # add data from external files
 myBGF <- add_bmp_measurement(
         x = myBGF,
-        path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+        path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 
 myBGF # print the BGF
 
@@ -114,7 +114,7 @@ myBGF2 # print the BGF
 # add data from an external file (standard record)
 myBGF2 <- add_standard_record(
         x = myBGF2,
-        path = base::system.file("extdata","Fermentation_B.tsv",package = "BGFanalyzeR"),
+        path = base::system.file("extdata","Fermentation_B.tsv",package = "bgfanalyzer"),
         RName = "R1",
         time_col = "UTC",
         product_col = "GCounter..ml.")
@@ -128,7 +128,7 @@ myBGF3 # print the BGF
 
 # import standard record
 rawReport <- read_raw_AMPTSV2_report(
-        path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+        path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 
 # add experimental meta data to BGF
 myBGF3 <- add_ExpPara(myBGF3,rawReport,TRUE)
@@ -152,7 +152,7 @@ myBGF4 # print the BGF
 
 # import a standard record
 rawReport2 <- import_standard_record(
-        ipath = base::system.file("extdata","Fermentation_B.tsv",package = "BGFanalyzeR"))
+        ipath = base::system.file("extdata","Fermentation_B.tsv",package = "bgfanalyzer"))
 
 # calculate a fermentaion/ observation time
 rawReport2<-calc_FR_time(rawReport2,1,units="hours")

@@ -12,7 +12,7 @@
 #'@examples
 #'# import example biogas fermentation data
 #'stRep<-import_standard_record(
-#'       ipath = base::system.file("extdata","Fermentation_B.tsv",package = "BGFanalyzeR"),
+#'       ipath = base::system.file("extdata","Fermentation_B.tsv",package = "bgfanalyzer"),
 #'       header=TRUE,
 #'       dec=".",
 #'       sep="\t")

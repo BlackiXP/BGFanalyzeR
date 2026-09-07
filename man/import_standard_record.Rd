@@ -52,7 +52,7 @@ import_BGF_object(path)
 Either a data.frame, a list or a BGF
 }
 \description{
-The \code{BGFanalyzeR} package has three data import functions.
+The \code{bgfanalyzer} package has three data import functions.
 Two are called internally by the helper functions \link[=BGF]{from_standard_report} or \link[=BGF]{from_AMPTV2_report} when creating a new \code{BGF} object.
 The third allows to import a \code{BGF} object, that was previously exported from R.
 }
@@ -90,14 +90,14 @@ Consequently, a \code{BGF} is returned.
 \examples{
 # import biogas fermentation from a .tsv file
 stRep <- import_standard_record(
-      ipath = base::system.file("extdata","Fermentation_B.tsv",package ="BGFanalyzeR"),
+      ipath = base::system.file("extdata","Fermentation_B.tsv",package ="bgfanalyzer"),
       header=TRUE,
       dec=".",
       sep="\t")
 
 # calculate a fermentation time while importing the data
 stRep_frt <- import_standard_record(
-        ipath = base::system.file("extdata","Fermentation_B.tsv",package ="BGFanalyzeR"),
+        ipath = base::system.file("extdata","Fermentation_B.tsv",package ="bgfanalyzer"),
         header=TRUE,
         dec=".",
         sep="\t",
@@ -108,16 +108,16 @@ stRep_frt <- import_standard_record(
 
 # create a list that can be used as a template to build a BGF
 RawReport <- read_raw_AMPTSV2_report(
-        path = base::system.file("extdata","AMPTSV2.csv",package ="BGFanalyzeR"))
+        path = base::system.file("extdata","AMPTSV2.csv",package ="bgfanalyzer"))
 
 
 
 # import a BGF from a '.csv'-file
 BGF_csv <- import_BGF_object(
-      path = base::system.file("extdata","importable_BGF_object.csv",package = "BGFanalyzeR"))
+      path = base::system.file("extdata","importable_BGF_object.csv",package = "bgfanalyzer"))
 
 # import a BGF from a '.RDS'-file
 BGF_rds <- import_BGF_object(
-      path = base::system.file("extdata","importable_BGF_object.RDS",package = "BGFanalyzeR"))
+      path = base::system.file("extdata","importable_BGF_object.RDS",package = "bgfanalyzer"))
 
 }

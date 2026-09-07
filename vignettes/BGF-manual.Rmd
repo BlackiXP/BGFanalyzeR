@@ -29,7 +29,7 @@ Let's build a BGF for two fermentations of Layout "A" and "B".
 
 ```{r setup}
 # load package
-library(BGFanalyzeR)
+library(bgfanalyzer)
 
 # create a BGF
 myBGF <- BGF(ReactorLayout = c("A","B"),MeasurementType = "manuel")
@@ -278,4 +278,4 @@ The same functions used during the manual workflow are also called behind the sc
 
 `BGF`'s created by either workflow are fully compatible to each other and thus can be merged, subset or re-arranged.
 
-The manual workflow with it's high flexibility includes all building bricks needed to develop own advanced workflows, allowing to adapt the potential of `BGFanalyzeR` all possible fermentation systems.
+The manual workflow with it's high flexibility includes all building bricks needed to develop own advanced workflows, allowing to adapt the potential of `bgfanalyzer` all possible fermentation systems.

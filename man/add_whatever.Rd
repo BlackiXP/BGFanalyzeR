@@ -97,7 +97,7 @@ myBGF <- from_AMPTSV2_report(
         name = "Test",
         InocToSubRatio=2,
         ProcessTemp = 52,
-        path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR")
+        path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer")
         )
 
 # add a start date to 'ExpParam'
@@ -127,7 +127,7 @@ myBGF2<-from_standard_record(
         ReactorLayout = "A",
         ProcessTemp = 80,
         InocToSubRatio = .1,
-        path = base::system.file("extdata","Fermentation_A.tsv",package = "BGFanalyzeR"),
+        path = base::system.file("extdata","Fermentation_A.tsv",package = "bgfanalyzer"),
         time_col = 1,
         product_col = 3)
 
@@ -136,7 +136,7 @@ Gas_comp<-import_standard_record(
         ipath = base::system.file(
             "extdata",
             "gasq_A.tsv",
-            package = "BGFanalyzeR"
+            package = "bgfanalyzer"
          ),
         mkFRTime = "2025-01-15 17:00:00",
         FRTime_col = 1,
