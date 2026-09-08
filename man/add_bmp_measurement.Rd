@@ -24,11 +24,11 @@ add_standard_record(
   feedback = TRUE
 )
 
-add_ExpPara(x, rawReport, feedback = F)
+add_ExpPara(x, rawReport, feedback = FALSE)
 
-add_ExpSetup(x, rawReport, feedback = F)
+add_ExpSetup(x, rawReport, feedback = FALSE)
 
-sort_AMPTSV2_reactors(x, rawReport, feedback = F)
+sort_AMPTSV2_reactors(x, rawReport, feedback = FALSE)
 
 sort_standardReport(x, rawReport, RName, product_col)
 }

@@ -10,11 +10,11 @@
 \usage{
 add_whatever(x, layer, what, lab = "newData", feedback = F)
 
-add_ExpParam(x, what, feedback = F)
+add_ExpParam(x, what, feedback = FALSE)
 
-add_metaData(x, what, makeCol = TRUE, lab = "newData", feedback = F)
+add_metaData(x, what, makeCol = TRUE, lab = "newData", feedback = FALSE)
 
-add_BG_measurement(x, reactor, time, col, measurement, feedback = F)
+add_BG_measurement(x, reactor, time, col, measurement, feedback = FALSE)
 
 add_BG_parameter(
   x,

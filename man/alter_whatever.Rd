@@ -5,7 +5,7 @@
 \alias{alter_BG_measurement}
 \title{Alter data within a \code{BGF}}
 \usage{
-alter_whatever(x, layer, what, value, ID = NULL, feedback = F)
+alter_whatever(x, layer, what, value, ID = NULL, feedback = FALSE)
 
 alter_BG_measurement(
   x,
@@ -14,7 +14,7 @@ alter_BG_measurement(
   col,
   measurement,
   ID = NULL,
-  feedback = F
+  feedback = FALSE
 )
 }
 \arguments{
