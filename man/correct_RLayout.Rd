@@ -10,7 +10,7 @@ correct_RLayout(lo)
 cols_to_numeric(x, vec = c(2:4), layer = "BioGasData")
 }
 \arguments{
-\item{lo}{a \code{character} specifying a reactor layout (via the 'ReactorLayout' argument of certain \code{BGFanalyzeR} functions)}
+\item{lo}{a \code{character} specifying a reactor layout (via the 'ReactorLayout' argument of certain \code{bgfanalyzer} functions)}
 
 \item{x}{a \code{BGF}}
 

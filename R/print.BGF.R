@@ -27,7 +27,7 @@ print.BGF<-function(x,...){
 
   }else{
     cat(l1,"\n",l2,l3,l4,"\n",sep="\n")
-    print.data.frame(get_yield_summary(x,F,F))
+    print.data.frame(get_yield_summary(x,FALSE,FALSE))
   }
   invisible(x)
   return(0)

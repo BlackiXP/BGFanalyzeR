@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(BGFanalyzeR)
+library(bgfanalyzer)
 
-test_check("BGFanalyzeR")
+test_check("bgfanalyzer")

@@ -1,25 +1,25 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# BGFanalyzeR
+# bgfanalyzer
 
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-The goal of BGFanalyzeR is to help standardizing the analysis of biogas
+The goal of bgfanalyzer is to help standardizing the analysis of biogas
 fermentation data, through a novel S3 object class, the BGF. Th package
 ships with methods allowing object creation based on external files,
 object manipulation, as well as visualizing and exporting BGF’s .
 
 ## Installation
 
-You can install the development version of BGFanalyzeR from
+You can install the development version of bgfanalyzer from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
-pak::pak("BlackiXP/BGFanalyzeR")
+pak::pak("BlackiXP/bgfanalyzer")
 ```
 
 ## Example
@@ -27,7 +27,7 @@ pak::pak("BlackiXP/BGFanalyzeR")
 The package comes with an example data set ‘LabScaleBiogas’
 
 ``` r
-library(BGFanalyzeR)
+library(bgfanalyzer)
 myBGF <- LabscaleBiogas
 myBGF
 #> 'LabscaleBiogas' - a BGF with 15 fermentation(s)

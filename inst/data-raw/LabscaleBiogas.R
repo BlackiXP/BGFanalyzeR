@@ -7,7 +7,7 @@ LabscaleBiogas=from_AMPTSV2_report(
   name = "LabscaleBiogas",
   ProcessTemp = 42,
   InocToSubRatio = 2,
-  path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+  path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 
 usethis::use_data(LabscaleBiogas, overwrite = TRUE)
 

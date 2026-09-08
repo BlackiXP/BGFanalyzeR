@@ -17,11 +17,32 @@ save_BGF(
   ...
 )
 
-save_ExpParam(x, opath = NULL, mkdir = F, feedback = F, append = F, ...)
+save_ExpParam(
+  x,
+  opath = NULL,
+  mkdir = FALSE,
+  feedback = FALSE,
+  append = FALSE,
+  ...
+)
 
-save_metaData(x, opath = NULL, mkdir = F, feedback = F, append = F, ...)
+save_metaData(
+  x,
+  opath = NULL,
+  mkdir = FALSE,
+  feedback = FALSE,
+  append = FALSE,
+  ...
+)
 
-save_BioGasData(x, opath = NULL, mkdir = F, feedback = F, append = F, ...)
+save_BioGasData(
+  x,
+  opath = NULL,
+  mkdir = FALSE,
+  feedback = FALSE,
+  append = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{a \code{BGF} that should be exported}

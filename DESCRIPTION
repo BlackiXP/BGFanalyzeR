@@ -1,4 +1,4 @@
-Package: BGFanalyzeR
+Package: bgfanalyzer
 Type: Package
 Title: Analyze Microbial Biogas Fermentation Data
 Version: 1.1.0
@@ -10,11 +10,13 @@ Authors@R: c(
     )
   )
 Description: Provides a new S3 class object and relevant methods to analyze biogas fermentation data.
-    It includes three workflows. One is specialized to a commercially available lab-scale fermentation system. 
+    It includes three workflows. One is specialized to a commercially available lab-scale fermentation system (see e.g. Nwaigwe (2018) <doi:10.1115/ES2018-7553>). 
     The second provides more flexibility and allows to import data from plain text files.
     The last workflow offers the most flexibility as it doesn't expect external input files but relays on interactive user input.
     Although the focus is set on biogas fermentations, concepts and workflows may be also applicable to other fermentations even if not a gaseous product is measured.
     Furthermore, it provides functions that bridge to established plot engines (e.g. 'ggplot2' or 'plotly') for data visualisation.
+    'bgfanalyzer' catches up an idea of Hafner et al. (2018) <doi:10.1016/j.softx.2018.06.005>  of using R to standardize research within the biogas field.
+    For more details on standardization efforts within the biogas research field see Hollinger et al. (2016) <doi:10.2166/wst.2016.336> and Hollinger et al. (2021) <doi:10.2166/wst.2020.569>. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

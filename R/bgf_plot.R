@@ -24,7 +24,7 @@
 #'         name = "myBGF",
 #'         ProcessTemp = 40,
 #'         InocToSubRatio = 2,
-#'         path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+#'         path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 #'
 #'
 #' # generate all plots for the BGF
@@ -150,13 +150,17 @@ bgf_plot=function(x,type="all",...){
 #'
 
 # plot_curve() ####
-plot_curve=function(x,what,color,col=BGFanalyzeR::BGF_defaultcolors,coltitle="Reactor:",col_names=NULL,title=NULL,subtitle=NULL,xlab=ggplot2::waiver(),ylab=ggplot2::waiver(),keep_excluded=TRUE,interaction=FALSE){
+plot_curve=function(x,what,color,col=bgfanalyzer::BGF_defaultcolors,coltitle="Reactor:",col_names=NULL,title=NULL,subtitle=NULL,xlab=ggplot2::waiver(),ylab=ggplot2::waiver(),keep_excluded=TRUE,interaction=FALSE){
 
   df<-x$BioGasData # get the BioGasData
 
   # check if excluded reactors should appear in the plot
   if(isFALSE(keep_excluded)) df<-subset(df,!df$reactor%in%row.names(subset(x$metaData,x$metaData$Excluded==T)))
-  if(isFALSE(keep_excluded)) print(paste0("Removed excluded reactors ",paste(row.names(subset(x$metaData,x$metaData$Excluded==T)),collapse = ", ")," before plotting..."),quote=F)
+  if(isFALSE(keep_excluded)){ 
+    m1 <- paste0("Removed excluded reactors ",paste(row.names(subset(x$metaData,x$metaData$Excluded==T)),collapse = ", ")," before plotting...")
+    
+    message(m1)
+    }
 
   if(isFALSE(interaction)){
     out<- # bulid the plot
@@ -188,8 +192,6 @@ plot_curve=function(x,what,color,col=BGFanalyzeR::BGF_defaultcolors,coltitle="Re
     out<-plotly::ggplotly(out)
 
     }
-
- # print(out) # print the plot
 
   return(out) # return the  plot
 
@@ -272,7 +274,7 @@ plot_rel_production_curve=function(x,...){
 #'
 
 # plot_netProduct_by_Layout() ####
-plot_netProduct_by_Layout=function(x,col=BGFanalyzeR::BGF_defaultcolors[2+3*c(0:7)],coltitle="Layout:",col_names=NULL,title=NULL,subtitle=NULL,xlab=paste0("observation time [",x$ExpParam$timeScale,"s]"),ylab="net exhaust gas volume",keep_excluded=TRUE,interaction=FALSE){
+plot_netProduct_by_Layout=function(x,col=bgfanalyzer::BGF_defaultcolors[2+3*c(0:7)],coltitle="Layout:",col_names=NULL,title=NULL,subtitle=NULL,xlab=paste0("observation time [",x$ExpParam$timeScale,"s]"),ylab="net exhaust gas volume",keep_excluded=TRUE,interaction=FALSE){
   if(isTRUE(is.null(x$ExpParam$timeScale))) x<-add_ExpParam(x,c("timeScale"="default"))
 
   df<-x$BioGasData # get the BioGasData
@@ -287,7 +289,11 @@ plot_netProduct_by_Layout=function(x,col=BGFanalyzeR::BGF_defaultcolors[2+3*c(0:
 
   # check if excluded reactors should appear in the plot
   if(isFALSE(keep_excluded)) df<-subset(df,!df$reactor%in%row.names(subset(x$metaData,x$metaData$Excluded==T)))
-  if(isFALSE(keep_excluded)) print(paste0("Removed excluded reactors ",paste(row.names(subset(x$metaData,x$metaData$Excluded==T)),collapse = ", ")," before plotting..."),quote=F)
+  if(isFALSE(keep_excluded)) {
+    m1 <- paste0("Removed excluded reactors ",paste(row.names(subset(x$metaData,x$metaData$Excluded==T)),collapse = ", ")," before plotting...")
+    
+    message(m1)
+    }
 
   df<-dplyr::reframe(.data = df,mean_product=mean(.data$net_product),low=mean(.data$net_product)-stats::sd(.data$net_product),up=mean(.data$net_product)+stats::sd(.data$net_product),.by = c(.data$Layout,.data$time))
 
@@ -307,8 +313,6 @@ plot_netProduct_by_Layout=function(x,col=BGFanalyzeR::BGF_defaultcolors[2+3*c(0:
 }
   # check if interaction is true and make the plot interactive if desired
   if(isTRUE(interaction)) out<-plotly::ggplotly(out)
-
- # print(out) # print the plot
 
   return(out) # return the  plot
 
@@ -341,7 +345,7 @@ plot_netProduct_by_Layout=function(x,col=BGFanalyzeR::BGF_defaultcolors[2+3*c(0:
 #'
 
 # colplot_yield() ####
-colplot_yield=function(x,hide=NULL,Excluded=FALSE,col=BGFanalyzeR::BGF_defaultcolors[2+3*c(0:7)],coltitle="Layout:",col_names=NULL,title=NULL,subtitle=NULL,yield_label=FALSE,yield_label_pos=100,yield_unit="Nml/gVS",interaction=FALSE){
+colplot_yield=function(x,hide=NULL,Excluded=FALSE,col=bgfanalyzer::BGF_defaultcolors[2+3*c(0:7)],coltitle="Layout:",col_names=NULL,title=NULL,subtitle=NULL,yield_label=FALSE,yield_label_pos=100,yield_unit="Nml/gVS",interaction=FALSE){
 
   df <-get_yield_summary(x,Excluded,F)
   df$Layout=rownames(df)
@@ -365,8 +369,6 @@ colplot_yield=function(x,hide=NULL,Excluded=FALSE,col=BGFanalyzeR::BGF_defaultco
    # check if interaction is true and make the plot interactive if desired
   if(isTRUE(interaction)) out<-plotly::ggplotly(out)
 
-
-#  print(out) # print the plot
 
   return(out) # return the  plot
 }
@@ -398,7 +400,7 @@ colplot_yield=function(x,hide=NULL,Excluded=FALSE,col=BGFanalyzeR::BGF_defaultco
 #'
 
 # boxplot_yield() ####
-boxplot_yield=function(x,timep="all",hide=NULL,Excluded=FALSE,col=BGFanalyzeR::BGF_defaultcolors[2+3*c(0:7)],coltitle="Layout:",col_names=NULL,title=NULL,subtitle=NULL,yield_label=FALSE,yield_label_pos=100,yield_unit="Nml/gVS",interaction=FALSE){
+boxplot_yield=function(x,timep="all",hide=NULL,Excluded=FALSE,col=bgfanalyzer::BGF_defaultcolors[2+3*c(0:7)],coltitle="Layout:",col_names=NULL,title=NULL,subtitle=NULL,yield_label=FALSE,yield_label_pos=100,yield_unit="Nml/gVS",interaction=FALSE){
 
   df<- x$BioGasData
   df$Layout=NA
@@ -440,8 +442,6 @@ boxplot_yield=function(x,timep="all",hide=NULL,Excluded=FALSE,col=BGFanalyzeR::B
 
     out <- out + ggplot2::geom_label(data = df2,mapping=ggplot2::aes(x=.data$Layout,y=.data$yield_label_pos,label=paste(round(.data$mBGP,2),yield_unit,sep = "\n")),fill="white")
     }
-
- # print(out)
 
   return(out)
 

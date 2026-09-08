@@ -55,27 +55,37 @@ save_BGF=function(x,opath=NULL,mkdir=FALSE,feedback=FALSE,append=FALSE,format="c
     if(isFALSE(append)) opath <- paste0(opath,x$ExpParam$name,"_BGF_object.csv") # generate final file name
 
     save_ExpParam(x,opath,FALSE,feedback,append = TRUE) # writes 'ExpParam' slot to 'opath'
-    write(" ",append = T,file = opath,sep="") # add empty line as separator
+    write(" ",append = TRUE,file = opath,sep="") # add empty line as separator
 
     save_metaData(x,opath,FALSE,feedback,append = TRUE) # writes 'metaData' slot to 'opath'
-    write(" ",append = T,file = opath,sep="") # add empty line as separator
+    write(" ",append = TRUE,file = opath,sep="") # add empty line as separator
 
     save_BioGasData(x,opath,FALSE,feedback,append = TRUE) # writes 'BioGasData' slot to 'opath'
 
     # give feedback
-    if(isTRUE(feedback)) print(paste0(x$ExpParam$name," was written to file '",opath,"' successfully!"),quote = F)
+    if(isTRUE(feedback)){
+      m1 <- paste0(x$ExpParam$name," was written to file '",opath,"' successfully!")
+      
+      message(m1)
+    }
 
   }else if(format=="RDS"){
     if(isFALSE(append)) opath <- paste0(opath,x$ExpParam$name,"_BGF_object.RDS") # generate final file name
     saveRDS(x,opath)
 
     # give feedback
-    if(isTRUE(feedback)) print(paste0(x$ExpParam$name," was written to file '",opath,"' successfully!"),quote = F)
+    if(isTRUE(feedback)){
+      m1<-paste0(x$ExpParam$name," was written to file '",opath,"' successfully!")
+      
+      message(m1)
+      }
 
-    else{
-      print("Nothing was saved...",quote=FALSE)
-      print("Supported format's are 'csv' or 'RDS'!",quote=FALSE)
-    }
+    
+  }else{
+    m1 <- paste0("Nothing was saved...","\n")
+    m1 <- paste0(m1,"Supported format's are 'csv' or 'RDS'!")
+    
+    message(m1)
   }
 }
 
@@ -92,7 +102,7 @@ save_BGF=function(x,opath=NULL,mkdir=FALSE,feedback=FALSE,append=FALSE,format="c
 #'
 
 # save_ExpParam() ####
-save_ExpParam=function(x,opath=NULL,mkdir=F,feedback=F,append=F,...){
+save_ExpParam=function(x,opath=NULL,mkdir=FALSE,feedback=FALSE,append=FALSE,...){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -108,12 +118,16 @@ save_ExpParam=function(x,opath=NULL,mkdir=F,feedback=F,append=F,...){
   if(isFALSE(append)) opath <- paste0(opath,x$ExpParam$name,"_ExpParam.csv") # generate final file name
 
   write(paste0("BioGasFermentation:ExpParam,",length(x$ExpParam)),append = append,file = opath,sep="\n") # write format specifier
-  write(" ",append = T,file = opath,sep="") # add empty line as separator
+  write(" ",append = TRUE,file = opath,sep="") # add empty line as separator
 
-  for(i in c(1:length(x$ExpParam))) write(paste0(names(x$ExpParam)[i],",",x$ExpParam[i]),file = opath,append = T,sep="\n") # export each slot of 'ExpParam' as name,value pair per row
+  for(i in c(1:length(x$ExpParam))) write(paste0(names(x$ExpParam)[i],",",x$ExpParam[i]),file = opath,append = TRUE,sep="\n") # export each slot of 'ExpParam' as name,value pair per row
 
   # give feedback
-  if(isTRUE(feedback)) print(paste0(x$ExpParam$name,"'s '$ExpParam' was written to file '",opath,"'..."),quote = F)
+  if(isTRUE(feedback)){ 
+    m1 <- paste0(x$ExpParam$name,"'s '$ExpParam' was written to file '",opath,"'...")
+    
+    message(m1)
+    }
 
 }
 
@@ -131,7 +145,7 @@ save_ExpParam=function(x,opath=NULL,mkdir=F,feedback=F,append=F,...){
 
 
 # save_metaData() ####
-save_metaData=function(x,opath=NULL,mkdir=F,feedback=F,append=F,...){
+save_metaData=function(x,opath=NULL,mkdir=FALSE,feedback=FALSE,append=FALSE,...){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -152,10 +166,14 @@ save_metaData=function(x,opath=NULL,mkdir=F,feedback=F,append=F,...){
 
   x$metaData$Layout<-as.character(x$metaData$Layout)
   
-  for(i in c(1:nrow(x$metaData))) write(paste0(rownames(x$metaData)[i],",",paste(x$metaData[i,],collapse = ",")),file = opath,append = T,sep="\n") # export each slot of 'ExpParam' as name,value pair per row
+  for(i in c(1:nrow(x$metaData))) write(paste0(rownames(x$metaData)[i],",",paste(x$metaData[i,],collapse = ",")),file = opath,append = TRUE,sep="\n") # export each slot of 'ExpParam' as name,value pair per row
 
   # give feedback
-  if(isTRUE(feedback)) print(paste0(x$ExpParam$name,"'s '$metaData' was written to file '",opath,"'..."),quote = F)
+  if(isTRUE(feedback)){ 
+    m1 <-paste0(x$ExpParam$name,"'s '$metaData' was written to file '",opath,"'...")
+    
+    message(m1)
+    }
 
 }
 
@@ -172,7 +190,7 @@ save_metaData=function(x,opath=NULL,mkdir=F,feedback=F,append=F,...){
 #'
 
 # save_BioGasData() ####
-save_BioGasData=function(x,opath=NULL,mkdir=F,feedback=F,append=F,...){
+save_BioGasData=function(x,opath=NULL,mkdir=FALSE,feedback=FALSE,append=FALSE,...){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -189,12 +207,16 @@ save_BioGasData=function(x,opath=NULL,mkdir=F,feedback=F,append=F,...){
 
   write(paste0("BioGasFermentation:BioGasData,",nrow(x$BioGasData),",",length(x$BioGasData)),append = append,file = opath,sep="\n") # write format specifier
   write(" ",append = T,file = opath,sep="") # add empty line as separator
-  write(paste0("Row,",paste(colnames(x$BioGasData),collapse = ",")),append = T,file = opath,sep="") # write column names
+  write(paste0("Row,",paste(colnames(x$BioGasData),collapse = ",")),append = TRUE,file = opath,sep="") # write column names
 
-  for(i in c(1:nrow(x$BioGasData))) write(paste0(rownames(x$BioGasData)[i],",",paste(x$BioGasData[i,],collapse = ",")),file = opath,append = T,sep="\n") # export each slot of 'ExpParam' as name,value pair per row
+  for(i in c(1:nrow(x$BioGasData))) write(paste0(rownames(x$BioGasData)[i],",",paste(x$BioGasData[i,],collapse = ",")),file = opath,append = TRUE,sep="\n") # export each slot of 'ExpParam' as name,value pair per row
 
   # give feedback
-  if(isTRUE(feedback)) print(paste0(x$ExpParam$name,"'s '$BioGasData' was written to file '",opath,"'..."),quote = F)
+  if(isTRUE(feedback)){
+    m1 <- paste0(x$ExpParam$name,"'s '$BioGasData' was written to file '",opath,"'...")
+    
+    message(m1)
+    }
 
 }
 

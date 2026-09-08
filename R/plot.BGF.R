@@ -18,7 +18,7 @@ plot.BGF=function(x,xlab="Time",ylab="Volume [Nml]",main=paste0("Raw exhaust gas
   Biogas<-x$BioGasData
 
   Biogas$pcol=NA
-  for(i in c(1:nrow(Biogas))) Biogas$pcol[i]=BGFanalyzeR::BGF_defaultcolors[as.numeric(Biogas$reactor)[i]]
+  for(i in c(1:nrow(Biogas))) Biogas$pcol[i]=bgfanalyzer::BGF_defaultcolors[as.numeric(Biogas$reactor)[i]]
 
   base::plot(x=Biogas$time,
        y=Biogas$product,

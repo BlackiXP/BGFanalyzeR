@@ -11,21 +11,21 @@
 \alias{get_yield_summary}
 \title{Extract information from a BGF}
 \usage{
-get_layer(x, layer, feedback = F)
+get_layer(x, layer, feedback = FALSE)
 
-get_whatever(x, layer, what, feedback = F)
+get_whatever(x, layer, what, feedback = FALSE)
 
-get_MeasurementType(x, feedback = F)
+get_MeasurementType(x, feedback = FALSE)
 
-get_ReactorLayout(x, feedback = F)
+get_ReactorLayout(x, feedback = FALSE)
 
-get_BlankLabel(x, feedback = F)
+get_BlankLabel(x, feedback = FALSE)
 
-get_Excluded(x, feedback = F)
+get_Excluded(x, feedback = FALSE)
 
-get_blanks(x, feedback = F)
+get_blanks(x, feedback = FALSE)
 
-get_yield_summary(x, Excluded = F, feedback = T)
+get_yield_summary(x, Excluded = FALSE, feedback = TRUE)
 }
 \arguments{
 \item{x}{a \code{BGF}}
@@ -106,7 +106,7 @@ myBGF2<-from_AMPTSV2_report(
         name = "myBGF2",
         InocToSubRatio = 2,
         ProcessTemp = 52,
-        path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+        path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 
 # extract yield summary
 get_yield_summary(myBGF2)

@@ -9,7 +9,7 @@
 #'
 #' It is useful when dealing with replicates among the fermentations of a `BGF`, as it can be used to add redundant information to the 'metaData' layer of a (see examples).
 #'
-#' @param lo a `character` specifying a reactor layout (via the 'ReactorLayout' argument of certain `BGFanalyzeR` functions)
+#' @param lo a `character` specifying a reactor layout (via the 'ReactorLayout' argument of certain `bgfanalyzer` functions)
 #'
 #' @returns a `character` (`correct_RLayout`)
 #'

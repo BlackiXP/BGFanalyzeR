@@ -19,7 +19,7 @@
 #'         name = "Test",
 #'         InocToSubRatio=2,
 #'         ProcessTemp = 52,
-#'         path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR")
+#'         path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer")
 #'         )
 #'
 #' # change name to 'newName'
@@ -34,7 +34,7 @@
 #' @export
 
 # alter_whatever() ####
-alter_whatever=function(x,layer,what,value,ID=NULL,feedback=F){
+alter_whatever=function(x,layer,what,value,ID=NULL,feedback=FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -74,8 +74,8 @@ alter_whatever=function(x,layer,what,value,ID=NULL,feedback=F){
 
   if(layer=="ExpParam")x[[{layer}]][[what]]<-value # alter entry 'what' of x$ExpParam
   if(layer=="metaData"){
-    if(is.null(ID)==T)x[[{layer}]][,what]<-value # alter vector 'what' of x$metaData or
-    if(is.null(ID)==F)x[[{layer}]][ID,what]<-value} # alter cell x$metaData[ID,what]
+    if(is.null(ID)==TRUE)x[[{layer}]][,what]<-value # alter vector 'what' of x$metaData or
+    if(is.null(ID)==FALSE)x[[{layer}]][ID,what]<-value} # alter cell x$metaData[ID,what]
 
   return(x) # return  modified x
 
@@ -104,7 +104,7 @@ alter_whatever=function(x,layer,what,value,ID=NULL,feedback=F){
 
 
 # alter_BG_measurement() ####
-alter_BG_measurement=function(x,reactor_id,time_id,col,measurement,ID=NULL,feedback=F){
+alter_BG_measurement=function(x,reactor_id,time_id,col,measurement,ID=NULL,feedback=FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)

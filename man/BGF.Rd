@@ -101,13 +101,13 @@ from_AMPTSV2_report(
         name = "Test",
         InocToSubRatio=2,
         ProcessTemp = 52,
-        path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+        path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 
 # create a BGF from a minimal external data file
 from_standard_record(ReactorLayout = "A",
         ProcessTemp = 80,
         InocToSubRatio = .1,
-        path = base::system.file("extdata","Fermentation_A.tsv",package = "BGFanalyzeR"),
+        path = base::system.file("extdata","Fermentation_A.tsv",package = "bgfanalyzer"),
         time_col = 1,
         product_col = 3)
 

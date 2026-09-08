@@ -19,7 +19,7 @@
 #'         BlankLabel = "Meso",
 #'         name = "myBGF",
 #'         ProcessTemp = 42,
-#'         path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"),
+#'         path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"),
 #'         InocToSubRatio = 2,
 #'         feedback = TRUE)
 #'
@@ -85,7 +85,7 @@ trim_FR_time=function(x,value,mode="all",left_end=TRUE,cut_left=TRUE){
 
     }
 
-    x$BioGasData<-subset(x$BioGasData,is.na(x$BioGasData$reactor)==F)
+    x$BioGasData<-subset(x$BioGasData,is.na(x$BioGasData$reactor)==FALSE)
 
   }
 

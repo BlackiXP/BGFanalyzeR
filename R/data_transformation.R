@@ -27,7 +27,7 @@
 #' # add data to BGF
 #' myBGF <- add_bmp_measurement(
 #'         x = myBGF,
-#'         path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+#'         path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 #'
 #' # correct data
 #' myBGF <- cols_to_numeric(myBGF)
@@ -73,7 +73,11 @@ calc_yield=function(x,pos=6,feedback=F){
   }
 
   # give feedback
-  if(isTRUE(feedback)) print(paste0("Biocehmical methane potentials calculated (",x$ExpParam$name,")..."),quote=F)
+  if(isTRUE(feedback)){ 
+    m1 <- paste0("Biocehmical methane potentials calculated (",x$ExpParam$name,")...")
+    
+    message(m1)
+    }
 
   return(x) # return modified x
 
@@ -175,7 +179,11 @@ summarize_yield=function(x,timep="auto",feedback=F){
   }
 
   # give feedback
-  if(isTRUE(feedback)) print(paste0("Yield summarized (",x$ExpParam$name,")..."),quote = F)
+  if(isTRUE(feedback)){ 
+    m1 <- paste0("Yield summarized (",x$ExpParam$name,")...")
+    
+    message(m1)
+    }
 
   return(x) # return modified x
 
@@ -217,7 +225,11 @@ relative_production=function(x,feedback=F){
   }
 
   # give feedback
-  if(isTRUE(feedback)) print(paste0("Relative production rate calculated (",x$ExpParam$name,")..."),quote = F)
+  if(isTRUE(feedback)) {
+    m1 <- paste0("Relative production rate calculated (",x$ExpParam$name,")...")
+    
+    message(m1)
+    }
 
   return(x) # return modified x
 
@@ -238,7 +250,7 @@ relative_production=function(x,feedback=F){
 #'         ReactorLayout = "A",
 #'         ProcessTemp = 80,
 #'         InocToSubRatio = .1,
-#'         path = base::system.file("extdata","Fermentation_A.tsv",package = "BGFanalyzeR"),
+#'         path = base::system.file("extdata","Fermentation_A.tsv",package = "bgfanalyzer"),
 #'         time_col = 1,
 #'         product_col = 3)
 #'

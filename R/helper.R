@@ -50,7 +50,7 @@ BGF <- function(ReactorLayout,
 #'         name = "Test",
 #'         InocToSubRatio=2,
 #'         ProcessTemp = 52,
-#'         path = base::system.file("extdata","AMPTSV2.csv",package = "BGFanalyzeR"))
+#'         path = base::system.file("extdata","AMPTSV2.csv",package = "bgfanalyzer"))
 #'
 #'@export
 
@@ -60,7 +60,11 @@ from_AMPTSV2_report=function(ReactorLayout,BlankLabel="Blank",name="new_BGF",Pro
   out <- BGF(ReactorLayout=ReactorLayout,BlankLabel=BlankLabel,name=name,ProcessTemp=ProcessTemp,InocToSubRatio=InocToSubRatio,MeasurementType="AMPTSV2")
   # create an empty BGF of MeasurementType 'AMPTSV2'
 
-  if(isTRUE(feedback)) print(paste0("New BGF (",name,") initialized..."),quote = FALSE)
+  if(isTRUE(feedback)){ 
+    m1 <- paste0("New BGF (",name,") initialized...")
+    
+    message(m1)
+    }
 
   out <- add_bmp_measurement(x = out, path = path, mode = out$ExpParam$MeasurementType,feedback = feedback) # import raw report and extract the data;
   # fills imported data into empty BGF
@@ -69,10 +73,15 @@ from_AMPTSV2_report=function(ReactorLayout,BlankLabel="Blank",name="new_BGF",Pro
 
   out <- close_gaps(out,feedback = feedback) # close gaps in imported volume data
 
-  out$BioGasData$production[grep(T,is.na(out$BioGasData$production))] <- 0 # close gaps in imported flow data
+  out$BioGasData$production[grep(TRUE,is.na(out$BioGasData$production))] <- 0 # close gaps in imported flow data
 
   # give feedback
-  if(isTRUE(feedback)) print(paste0("Closed gaps in imported flow data (",name,")..."),quote=FALSE)
+  if(isTRUE(feedback)){ 
+    m1<-paste0("Closed gaps in imported flow data (",name,")...")
+  
+    message(m1)
+         }
+  
 
   out <- netGas(out,feedback = feedback) # subtract blank gas volume (mean) from sample gas volume;
   # thereby correcting blank gas volume based on the mas balance within the reactor
@@ -84,7 +93,11 @@ from_AMPTSV2_report=function(ReactorLayout,BlankLabel="Blank",name="new_BGF",Pro
   out <- summarize_yield(out,feedback = feedback) # summarize calculated bmp's
 
   # give feedback
-  if(isTRUE(feedback)) print(paste0("A new BGF (MeasurementType = 'AMPTSV2') was sucessfully created (",name,")!"),quote = FALSE)
+  if(isTRUE(feedback)){ 
+    m1 <- paste0("A new BGF (MeasurementType = 'AMPTSV2') was sucessfully created (",name,")!")
+  
+    message(m1)
+    }
 
   return(out) # return out
 
@@ -113,7 +126,7 @@ from_AMPTSV2_report=function(ReactorLayout,BlankLabel="Blank",name="new_BGF",Pro
 #' from_standard_record(ReactorLayout = "A",
 #'         ProcessTemp = 80,
 #'         InocToSubRatio = .1,
-#'         path = base::system.file("extdata","Fermentation_A.tsv",package = "BGFanalyzeR"),
+#'         path = base::system.file("extdata","Fermentation_A.tsv",package = "bgfanalyzer"),
 #'         time_col = 1,
 #'         product_col = 3)
 #'
@@ -130,19 +143,37 @@ from_standard_record=function(ReactorLayout,ProcessTemp,InocToSubRatio,path,time
                   MeasurementType="std. report format")
   # create an empty BGF of MeasurementType 'manual'
 
-  if(isTRUE(feedback)) print(paste0("New BGF (",name,") initialized..."),quote = FALSE)
+  if(isTRUE(feedback)){
+    m1 <- paste0("New BGF (",name,") initialized...")
+    
+    message(m1)
+    }
 
   record<-import_standard_record(path,...) # imports standard reoprt
 
-  if(isTRUE(feedback)) print(paste0("Standard record imported from '",path,"'..."),quote = FALSE)
+  if(isTRUE(feedback)){ 
+    m1 <- paste0("Standard record imported from '",path,"'...")
+  
+    message(m1)
+    }
 
   record<-calc_FR_time(record,time_col = time_col,units=units) # calculates FR Time
 
-  if(isTRUE(feedback)) print(paste0("Fermentation time in '",units,"' calculated..."),quote = FALSE)
+  if(isTRUE(feedback)) {
+    m1 <- paste0("Fermentation time in '",units,"' calculated...")
+  
+    message(m1)
+    }
+  
+  
 
   out<-sort_standardReport(x = out,rawReport = record,RName=RName,product_col = product_col) # Sorts the imported data into the output object
 
-  if(isTRUE(feedback)) print(paste0("Standard record added to '",name,"'..."),quote = FALSE)
+  if(isTRUE(feedback)) {
+    m1 <- paste0("Standard record added to '",name,"'...")
+    
+    message(m1)
+    }
 
   out<-update_BGF(out)
 
