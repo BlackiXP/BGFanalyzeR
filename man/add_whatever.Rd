@@ -8,7 +8,7 @@
 \alias{add_BG_parameter}
 \title{Add data to a \code{BGF}}
 \usage{
-add_whatever(x, layer, what, lab = "newData", feedback = F)
+add_whatever(x, layer, what, lab = "newData", feedback = FALSE)
 
 add_ExpParam(x, what, feedback = FALSE)
 

@@ -7,11 +7,11 @@
 \alias{calculate_flow_from_volume}
 \title{Data transformation functions}
 \usage{
-calc_yield(x, pos = 6, feedback = F)
+calc_yield(x, pos = 6, feedback = FALSE)
 
-summarize_yield(x, timep = "auto", feedback = F)
+summarize_yield(x, timep = "auto", feedback = FALSE)
 
-relative_production(x, feedback = F)
+relative_production(x, feedback = FALSE)
 
 calculate_flow_from_volume(x)
 }
