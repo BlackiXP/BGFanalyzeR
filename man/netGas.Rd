@@ -5,7 +5,7 @@
 \alias{netGasGC}
 \title{Calculate the net product gas}
 \usage{
-netGas(x, purity = 1, substract_blank = TRUE, pos = 7, feedback = F)
+netGas(x, purity = 1, substract_blank = TRUE, pos = 7, feedback = FALSE)
 
 netGasGC(
   x,
@@ -14,7 +14,7 @@ netGasGC(
   substract_blank = TRUE,
   pos = 7,
   na_replace = 0,
-  feedback = F
+  feedback = FALSE
 )
 }
 \arguments{

@@ -52,7 +52,7 @@
 #'
 
 # calc_yield() ####
-calc_yield=function(x,pos=6,feedback=F){
+calc_yield=function(x,pos=6,feedback=FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class basic_BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -97,7 +97,7 @@ calc_yield=function(x,pos=6,feedback=F){
 #'
 
 # summarize_yield() ####
-summarize_yield=function(x,timep="auto",feedback=F){
+summarize_yield=function(x,timep="auto",feedback=FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class basic_BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -204,7 +204,7 @@ summarize_yield=function(x,timep="auto",feedback=F){
 
 
 # relative_production() ####
-relative_production=function(x,feedback=F){
+relative_production=function(x,feedback=FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class basic_BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)

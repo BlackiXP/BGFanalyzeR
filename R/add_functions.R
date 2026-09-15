@@ -38,7 +38,7 @@
 #'
 
 # add_whatever() ####
-add_whatever=function(x,layer,what,lab="newData",feedback=F){
+add_whatever=function(x,layer,what,lab="newData",feedback=FALSE){
   if(isFALSE(class(x)=="BGF")){ # check if 'x' is class BGF
     stop("'x' must be class 'BGF'!",
          call. = FALSE)
@@ -69,7 +69,7 @@ add_whatever=function(x,layer,what,lab="newData",feedback=F){
   if(layer=="metaData")x[[layer]][,lab]=what # add a new column if 'layer' is "metaData"
 
   # give feedback
-  if(feedback==T){
+  if(feedback==TRUE){
     m1 <- paste0(x[["ExpParam"]][["name"]],":",layer," was modified...","\n",what,"\n","... was added!")
     message(m1)
     
@@ -167,7 +167,7 @@ add_BG_measurement=function(x,reactor,time,col,measurement,feedback=FALSE){
   x[["BioGasData"]][nrow(x[["BioGasData"]])+1,c("reactor","time",{{col}})]=c(reactor,time,measurement)
 
   for(i in nrow(x[["BioGasData"]])){ # for each row in x$BioGasData
-    while(is.na(x[["BioGasData"]][1,1])==T){ # check if the first cell is NA
+    while(is.na(x[["BioGasData"]][1,1])==TRUE){ # check if the first cell is NA
       x[["BioGasData"]]<-x[["BioGasData"]][-1,] # if true this row is removed
       rownames(x[["BioGasData"]])=c(1:nrow(x[["BioGasData"]]))}} # rownames are restored
 
@@ -342,7 +342,7 @@ add_BG_parameter=function(x,parameter,reactor,time=NULL,value=NULL,name=NULL,mak
   }
 
   if(isTRUE(interpolate_missing)){
-    x$BioGasData[,{{name}}]<-zoo::na.approx(x$BioGasData[,{{name}}],na.rm=F)
+    x$BioGasData[,{{name}}]<-zoo::na.approx(x$BioGasData[,{{name}}],na.rm=FALSE)
     x$BioGasData[,{{name}}]<-zoo::na.locf(x$BioGasData[,{{name}}])
   }
 
