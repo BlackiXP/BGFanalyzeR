@@ -115,7 +115,7 @@ merge_BGF=function(x,y,mergeParam=FALSE,x_tag=NULL,y_tag=NULL,name=NULL){
 
   rownames(x$metaData)=new_reactor
 
-  new_reactor<-paste0("R",c(1:nrow(x$metaData)+nrow(y$metaData)))
+  new_reactor<-paste0("R",c(1:nrow(y$metaData)+nrow(x$metaData)))
   names(new_reactor) <- rownames(y$metaData)
 
   y$BioGasData[,"reactor"]=as.character(y$BioGasData[,"reactor"])
